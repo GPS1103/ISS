@@ -1,27 +1,31 @@
 <template>
   <div id="app">
-    <button
-      type="button"
-      class="btn"
-      @click="showModal"
-    >
-      Open Modal!
-    </button>
-    <ModalForAdrian v-show="isModalVisible" @close="closeModal"/>
+    <AppHeader />
+    <AppFooter />
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VueConfetti from 'vue-confetti'
-import ModalForAdrian from './components/ModalForAdrian.vue'
+import AppHeader from './components/appHeader'
+import AppFooter from './components/appFooter'
+import Vuetify from 'vuetify'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 
 Vue.use(VueConfetti)
+Vue.use(Vuetify)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 export default {
   name: 'App',
   components: {
-    ModalForAdrian
+    AppHeader,
+    AppFooter
   },
   data() {
       return {
@@ -47,14 +51,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+  width: 100%;
+  margin: 0px;
 }
-
-.btn {
-    color: white;
-    background: #4AAE9B;
-    border: 1px solid #4AAE9B;
-    border-radius: 2px;
-    padding: 10px
-  }
+.element {
+  background-color: rgba(203, 205, 206, 1) !important;
+}
 </style>

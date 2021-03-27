@@ -39,7 +39,7 @@ Vue.use(VueConfetti)
   };
 </script>
 
-<style>
+<style scoped>
   .modal-backdrop {
     position: fixed;
     top: 0;
@@ -67,7 +67,7 @@ Vue.use(VueConfetti)
     align-items: center;
     position: relative;
     border-bottom: 1px solid #eeeeee;
-    color: #4AAE9B;
+    color: #037a64;
     justify-content: space-between;
   }
 
@@ -85,7 +85,7 @@ Vue.use(VueConfetti)
     padding: 10px;
     cursor: pointer;
     font-weight: bold;
-    color: #4AAE9B;
+    color: #c6fff5;
     background: transparent;
   }
 
