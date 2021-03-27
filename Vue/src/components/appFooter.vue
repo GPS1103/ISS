@@ -2,15 +2,12 @@
     <footer class="element">
         <div id='footer-container'>
             <v-card>
-                <v-tabs centered background-color="red">
-                    <b>
+                <v-tabs>
                     <v-tab v-for="item in items"
-                        
                         :key="item.tab"
                         :disabled="item.disabled"
                         @click="openApp(item.href)"> 
                         {{ item.tab }}</v-tab>
-                    </b>
                 </v-tabs>  
             </v-card>
             <b-tooltip v-for="(item, index) in items" :key="index" :disabled="!item.disabled" :target="item.tab">{{ item.tab }}</b-tooltip>
