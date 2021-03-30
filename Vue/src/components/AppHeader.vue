@@ -28,7 +28,7 @@ import VueSpeedometer from "vue-speedometer"
 export default {
     name: 'AppHeader',
     components: {
-        VueSpeedometer
+       VueSpeedometer
     },
     created(){
         setInterval( ()=>(this.toggle =! this.toggle), 1111);

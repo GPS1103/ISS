@@ -6,18 +6,18 @@
                     <v-tab v-for="item in items"
                         :key="item.tab"
                         :disabled="item.disabled"
-                        @click="openApp(item.href)"> 
+                        @click="goToPage(item.page)"> 
                         {{ item.tab }}</v-tab>
                 </v-tabs>  
             </v-card>
-            <b-tooltip v-for="(item, index) in items" :key="index" :disabled="!item.disabled" :target="item.tab">{{ item.tab }}</b-tooltip>
+            <!-- <b-tooltip v-for="(item, index) in items" :key="index" :disabled="!item.disabled" :target="item.tab">{{ item.tab }}</b-tooltip> -->
             <!-- <AppButton title='Apka 1'/>
             <AppButton title='Apka 2'/>
             <AppButton title='Apka 3'/> --> 
         </div>
     </footer>
 </template>
-
+<router-link :to="{name: 'WaterContainer'}">Zbiornik 1</router-link>
 <script>
 // import AppButton from './appButton'
 
@@ -26,25 +26,25 @@ export default {
     components: {
         // AppButton    
     },
-    props: {
-        title: {
-            type: String,
-            default: 'eluwino'
-        }
+    mounted(){
+        this.active_tab = this.$route.meta.number;
+        console.log(this.$route.name);
     },
-    data(){
-        return {
-            items: [
-                { tab: 'Apka 1', disabled: false, href: 'localhost:8080/apka_1'},
-                { tab: 'Apka 2', disabled: false, href: 'localhost:8080/apka_2' },
-                { tab: 'Apka 3', disabled: true, href: 'localhost:8080/apka_3'}
-            ]
-        }
-    },
+    data: ()=>({
+        active_tab: 1,
+        items: [
+            { tab: 'Apka 1', disabled: false, page: 'WaterContainer1'},
+            { tab: 'Apka 2', disabled: false, page: 'WaterContainer2' },
+            { tab: 'Apka 3', disabled: false, page: 'WaterContainer3'}
+        ]
+        
+    }),
     methods: {
-        openApp(link){
-            console.log(link);
-            // tutaj AJAX
+        goToPage(page){
+            if(page !== this.$route.name) this.$router.push({name: page});
+        },
+        getNumber(){
+            return this.$route.meta.number;
         }
     }
 }
