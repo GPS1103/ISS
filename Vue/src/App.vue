@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <router-view />
+      <AppHeader /> 
+        <router-view />
+      <AppFooter />
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VueConfetti from 'vue-confetti'
-
+import AppHeader from './components/AppHeader'
+import AppFooter from './components/AppFooter'
 import Vuetify from 'vuetify'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -19,7 +22,11 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    AppHeader,
+    AppFooter
+  }
 }
 </script>
 
