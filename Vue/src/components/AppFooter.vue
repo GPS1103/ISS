@@ -1,15 +1,17 @@
 <template>
     <footer class="element">
         <div id='footer-container'>
-            <v-card>
-                <v-tabs>
+            
+                <v-tabs v-model="tab" fixed-tabs dark slider-size="3" show-arrows background-color="#1976D2" color="#FFF"> 
+                    <!-- <v-tabs-slider color="#a074c4"></v-tabs-slider> -->
                     <v-tab v-for="item in items"
                         :key="item.tab"
+                        
                         :disabled="item.disabled"
                         @click="goToPage(item.page)"> 
-                        {{ item.tab }}</v-tab>
+                        {{ item.tab }}</v-tab> 
                 </v-tabs>  
-            </v-card>
+            
             <!-- <b-tooltip v-for="(item, index) in items" :key="index" :disabled="!item.disabled" :target="item.tab">{{ item.tab }}</b-tooltip> -->
             <!-- <AppButton title='Apka 1'/>
             <AppButton title='Apka 2'/>
