@@ -6,8 +6,17 @@ Vue.use(VueRouter)
 import WaterContainer1 from '../views/WaterContainer1'
 import WaterContainer2 from '../views/WaterContainer2'
 import WaterContainer3 from '../views/WaterContainer3'
+import WaterContainer4 from '../views/WaterContainer4'
 // import Page from './components/Page'
 const routes = [
+    {
+        path: "/WaterContainer4",
+        name: "WaterContainer4",
+        component: WaterContainer4,
+        meta: {
+            number: 4
+        }
+    },
     {
         path: "/WaterContainer3",
         name: "WaterContainer3",
