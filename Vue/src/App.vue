@@ -31,6 +31,14 @@ export default {
 </script>
 
 <style>
+:root {
+  --primary-color: #88bdbc;
+  --primary-color-dark: #254e58;
+  --text-color: #112d32;
+  --secondary-color-dark: #4f4a41;
+  --secondary-color: #6e6658;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -41,14 +49,24 @@ export default {
   min-width: 100%;
   margin: 0px;
 }
+
 .element {
-  background-color: rgba(203, 205, 206, 1) !important;
+  background-color: var(--secondary-color);
 }
+
 .web-content {
   display: block;
 }
+
 section {
   margin-top: 130px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-color);
 }
 
 </style>

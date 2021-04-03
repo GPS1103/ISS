@@ -1,8 +1,7 @@
 <template>
     <footer class="element">
         <div id='footer-container'>
-            
-                <v-tabs v-model="tab" fixed-tabs dark slider-size="3" show-arrows background-color="#1976D2" color="#FFF"> 
+                <v-tabs v-model="tab" fixed-tabs dark slider-size="4" show-arrows background-color="#6e6658" color="#FFF">
                     <!-- <v-tabs-slider color="#a074c4"></v-tabs-slider> -->
                     <v-tab v-for="item in items"
                         :key="item.tab"
@@ -37,7 +36,8 @@ export default {
         items: [
             { tab: 'Apka 1', disabled: false, page: 'WaterContainer1'},
             { tab: 'Apka 2', disabled: false, page: 'WaterContainer2' },
-            { tab: 'Apka 3', disabled: false, page: 'WaterContainer3'}
+            { tab: 'Apka 3', disabled: false, page: 'WaterContainer3'},
+            { tab: 'Apka 4', disabled: false, page: 'WaterContainer4'},
         ]
         
     }),
@@ -60,6 +60,7 @@ export default {
         bottom: 0;
         height: 50px;
         width: 100%;
+        background-color: var(--secondary-color);
     }
     #footer-container {
         padding: 2px 0px 2px 0px;

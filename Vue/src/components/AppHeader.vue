@@ -3,20 +3,28 @@
         <div>{{ title }}</div>
         <div id="widgets">
             <VueSpeedometer 
-                :needleHeightRatio="0.7"
-                :maxSegmentLabels="5"
-                :segments="100"
+                :forceRender="true"
+                :maxSegmentLabels="1"
+                :customSegmentStops="[0, 777, 1000]"
+                :segmentColors='["#5959ac", "#AAA"]'
+                needleColor="#b4b8b5"
+                :currentValueText='"Current Value: \${value}"'
                 :value="toggle ? 333 : 555"
-                :width="150"
-                :height="150"
+                textColor="${textColor}"
+                :width="200"
+                :height="200"
             />
             <VueSpeedometer 
-                :needleHeightRatio="0.7"
-                :maxSegmentLabels="5"
-                :segments="100"
+                :forceRender="true"
+                :maxSegmentLabels="1"
+                :customSegmentStops="[0, 777, 1000]"
+                :segmentColors='["#5959ac", "#AAA"]'
+                needleColor="#b4b8b5"
+                :currentValueText='"Current Value: \${value}"'
                 :value="toggle ? 333 : 555"
-                :width="150"
-                :height="150"
+                textColor="${textColor}"
+                :width="200"
+                :height="200"
             />
         </div>
     </header>
@@ -41,7 +49,6 @@ export default {
     props: {
         title: {
             type: String,
-            default: 'STATYSTYKA'
         }
     }
 }
@@ -59,7 +66,7 @@ export default {
 
     #widgets {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         width: 100%;
         height: 50px;
     }

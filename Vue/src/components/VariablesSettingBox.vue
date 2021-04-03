@@ -1,0 +1,44 @@
+<template>
+    <div class="container">
+        <div class="title">Ustawienia czynników:</div>
+        <div v-for="item in items" v-bind:key="item.name">
+            <Slider :value="item.value" :name="item.name" />
+        </div>
+    </div>
+</template>
+
+<script>
+import Slider from './Slider'
+import { SETTINGS_FIELDS } from '../consts.js'
+
+export default {
+    name: 'VariablesSettingBox',
+    components: {
+        Slider
+    },
+    props: {
+        items: {
+            type: Array,
+            default: SETTINGS_FIELDS
+        }
+    }
+}
+</script>
+
+<style>
+    .container {
+        width: 30%;
+        height: 400px; /* TODO - RWD compatible */
+        position: relative;
+        background-color: var(--primary-color);
+        float: right;
+        margin: 5% 10%;
+        border-radius: 3%;
+        box-shadow: 5px 7px 20px -7px rgba(0,0,0,0.69);
+    }
+
+    .title {
+        font-size: 20px;
+        margin: 5% auto;
+    }
+</style>

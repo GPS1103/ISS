@@ -13,6 +13,8 @@
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-confetti": "^2.2.1",
+    "vue-router": "^3.5.1",
+    "vue-slider-component": "^3.2.11",
     "vue-speedometer": "^1.8.0",
     "vuetify": "^2.4.0"
   },
