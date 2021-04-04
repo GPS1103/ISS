@@ -59,7 +59,7 @@ export default {
 }
 
 section {
-  margin-top: 130px;
+  margin-top: 15%;
 }
 
 .title {

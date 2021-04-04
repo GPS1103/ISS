@@ -14,7 +14,7 @@ import { SETTINGS_FIELDS } from '../consts.js'
 export default {
     name: 'VariablesSettingBox',
     components: {
-        Slider
+        Slider,
     },
     props: {
         items: {
