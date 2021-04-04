@@ -61,7 +61,7 @@
 
 <script>
 export default {
-  name: "waterBack",
+  name: "WaterBack",
   props: ["percent", "color"]
 };
 </script>
