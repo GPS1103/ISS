@@ -4,6 +4,8 @@
         <div v-for="item in items" v-bind:key="item.name">
             <Slider :value="item.value" :name="item.name" />
         </div>
+        <v-btn id='simulation-btn' @click="simulate()">Symuluj</v-btn>
+
     </div>
 </template>
 
@@ -20,6 +22,11 @@ export default {
         items: {
             type: Array,
             default: SETTINGS_FIELDS
+        }
+    },
+    methods: {
+        simulate(){
+            this.$parent.$parent.simulate(this.$parent.$options.name, 10, 0.05, 0.005, 5, 0.01, 1, 20);
         }
     }
 }
@@ -40,5 +47,12 @@ export default {
     .title {
         font-size: 20px;
         margin: 5% auto;
+    }
+    #simulation-btn {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin: 0px 0px 10px 0px;
+        width: 100%;
     }
 </style>

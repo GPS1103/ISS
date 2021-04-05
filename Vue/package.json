@@ -10,10 +10,11 @@
   "dependencies": {
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
-    "chart.js": "^3.0.1",
     "brython": "^3.9.1",
+    "chart.js": "^3.0.1",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
+    "vue-chart": "^2.0.0",
     "vue-chartjs": "^3.5.1",
     "vue-confetti": "^2.2.1",
     "vue-router": "^3.5.1",

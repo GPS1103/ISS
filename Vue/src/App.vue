@@ -1,18 +1,20 @@
-<template>
+<template @click="click">
   <div id="app">
       <AppHeader /> 
+       <child @simulate="simulate"></child>
         <router-view />
       <AppFooter />
   </div>
 </template>
 
+<script></script>
 <script>
 import Vue from 'vue'
 import VueConfetti from 'vue-confetti'
 import AppHeader from './components/AppHeader'
 import AppFooter from './components/AppFooter'
 import Vuetify from 'vuetify'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { BIconX, BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -26,7 +28,30 @@ export default {
   components: {
     AppHeader,
     AppFooter
-  }
+  },
+  mounted(){
+    this.loadScript();
+  },
+  methods: {
+    loadScript(){
+      brython();
+    },
+    simulate(component, A, Beta, Qd, H, Tp, SimulationLength, hMax){
+      if(component === "WaterContainer1"){
+        __BRYTHON__.imported.WaterContainer1.run(A, Beta, Qd, H, Tp, SimulationLength, hMax);
+      }
+      else if(component === "WaterContainer2"){
+        __BRYTHON__.imported.test_python.test(y, z);
+      }
+      else if(component === "WaterContainer3"){
+        __BRYTHON__.imported.test_python.test(y, z);
+      }
+      else if(component === "WaterContainer4"){
+        __BRYTHON__.imported.test_python.test(y, z);
+      }
+      
+    }
+  } 
 }
 </script>
 
