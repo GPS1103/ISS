@@ -1,8 +1,8 @@
 <template>
   <div class="small">
     <div>
-    <button class="chartButton" @click="fillData(1)">Wysokość</button>
-    <button class="chartButton" @click="fillData(2)">Objętość</button>
+    <button class="button" @click="fillData(1)">Wysokość</button>
+    <button class="button" @click="fillData(2)">Objętość</button>
     </div>
     <line-chart :chart-data="datacollection"></line-chart>
   </div>
@@ -40,14 +40,5 @@
   .small {
     max-width: 600px;
     margin: auto;
-  }
-
-  .chartButton {
-    background: #3498db;
-    border-radius: 28px;
-    color: #ffffff;
-    font-size: 18px;
-    padding: 10px 20px 10px 20px;
-    margin: 5px 10px;
   }
 </style>

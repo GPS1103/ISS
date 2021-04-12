@@ -26,6 +26,7 @@
                 :width="200"
                 :height="200"
             />
+            <button class="button header" @click="goToPage()">Login</button>
         </div>
     </header>
 </template>
@@ -50,6 +51,11 @@ export default {
         title: {
             type: String,
         }
+    },
+    methods: {
+        goToPage(){
+            if('Login' !== this.$route.name) this.$router.push({name: 'Login'});
+        }
     }
 }
 </script>
@@ -68,9 +74,16 @@ export default {
         display: flex;
         justify-content: space-around;
         width: 100%;
-        height: 50px;
+        height: 100%;
     }
     .segment-value, .current-value{
         font-size: 10px !important;
+    }
+
+    .button.header{
+        margin: auto 10px  !important;
+        transform: scale(1.3) !important;
+        line-height: initial;
+        height: fit-content;
     }
 </style>

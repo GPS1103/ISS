@@ -6,6 +6,8 @@ import WaterContainer1 from '../views/WaterContainer1'
 import WaterContainer2 from '../views/WaterContainer2'
 import WaterContainer3 from '../views/WaterContainer3'
 import WaterContainer4 from '../views/WaterContainer4'
+import Login from '../components/Auth/Login'
+import Registration from '../components/Auth/Registration'
 
 const routes = [
     {
@@ -30,6 +32,22 @@ const routes = [
         component: WaterContainer2,
         meta: {
             number: 2
+        }
+    },
+    {
+        path: "/login",
+        name: "Login",
+        component: Login,
+        meta: {
+            number: 5
+        }
+    },
+    {
+        path: "/registration",
+        name: "Registration",
+        component: Registration,
+        meta: {
+            number: 6
         }
     },
     {
