@@ -15,35 +15,37 @@ Tp = sampling time
 h = liquid level inside of container
 """
 
-import math
+
 
 #main
 
 #parameters
 
-# #Area in m^2
-A = 10
-#runoff coefficient, in m^(5/2)/s
-Beta = 0.005
-#Flow in in m^3/s, our input variable
-Qd = 0.05
-#Liquid height during steps, h(0) is the starting condition, in m
-h = [5]
-from pprint import pprint
-print(len(h))
-#Sampling time/step time
-Tp = 0.01
-#in hours
-SimulationLength = 1
+# # #Area in m^2
+# A = 10
+# #runoff coefficient, in m^(5/2)/s
+# Beta = 0.005
+# #Flow in in m^3/s, our input variable
+# Qd = 0.05
+# #Liquid height during steps, h(0) is the starting condition, in m
+# h = [5]
+# from pprint import pprint
+# print(len(h))
+# #Sampling time/step time
+# Tp = 0.01
+# #in hours
+# SimulationLength = 1
 
-#constraints
-hMax = 20               #maximum length of container in meters
+# #constraints
+# hMax = 20               #maximum length of container in meters
 
 #1: calculate number of iterations
 
 #2:loop
+import math
 import time
-def run(A, Beta, Qd, H, Tp, SimulationLength, hMax):
+
+def runWaterContainer1(A, Beta, Qd, H, Tp, SimulationLength, hMax):
     print(A, Beta, Qd, H, Tp, SimulationLength, hMax)
     iterations = int((3600 * SimulationLength) / Tp)
     h=[H]
@@ -66,5 +68,7 @@ def run(A, Beta, Qd, H, Tp, SimulationLength, hMax):
             toc = time.time()
             print("Run script: ", toc - tic)
             print('finisz')    
-run(A, Beta, Qd, 5, Tp, SimulationLength, hMax)
+            return h
+
 print('WaterContainer1.py loaded!')
+

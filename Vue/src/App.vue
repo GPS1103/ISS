@@ -17,11 +17,15 @@ import Vuetify from 'vuetify'
 import { BIconX, BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import LoadScript from 'vue-plugin-load-script'
+import WaterContainer1Vue from './views/WaterContainer1.vue'
+import CustomeChartVue from './components/CustomeChart.vue'
 
 Vue.use(VueConfetti)
 Vue.use(Vuetify)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(LoadScript)
 
   
 export default {
@@ -30,90 +34,70 @@ export default {
     AppHeader,
     AppFooter
   },
-  mounted(){
-    this.loadScript();
-    // async function main(){
-    //     await loadPyodide({
-    //       indexURL : "https://cdn.jsdelivr.net/pyodide/v0.17.0a2/full/"
-    //     });
-    //     console.log(pyodide.runPython(`
-    //         import sys
-    //         sys.version
-    //     `));
-    //     console.log(pyodide.runPython("print(1 + 2)"));
-    // }
-    // main();
+  data() {
+    return{
+      python: {
+        WaterContainer1: {
+          x: Array,   // array with data from python method
+          y: Number   // number of iteration
+        },
+        WaterContainer2: {
+          x: Array,
+          y: Number
+        },
+        WaterContainer3: {
+          x: Array,
+          y: Number
+        },
+        WaterContainer4: {
+          x: Array,
+          y: Number
+        }
+      }
+    }
+  },
+  created(){
+    this.loadPythonScript();
   },
   methods: {
-    loadScript(){
-      brython();
-    },
-    simulat(component, A, Beta, Qd, H, Tp, SimulationLength, hMax){
-      if(component === "WaterContainer1"){
-        __BRYTHON__.imported.WaterContainer1.run(A, Beta, Qd, H, Tp, SimulationLength, hMax);
+    loadPythonScript(){
+      const sleep = ms => {
+        return new Promise(resolve => setTimeout(resolve, ms));
       }
-      else if(component === "WaterContainer2"){
-        __BRYTHON__.imported.test_python.test(y, z);
-      }
-      else if(component === "WaterContainer3"){
-        __BRYTHON__.imported.test_python.test(y, z);
-      }
-      else if(component === "WaterContainer4"){
-        __BRYTHON__.imported.test_python.test(y, z);
-      }
-      
+      const asyncLoop = async _ => {
+    
+        for (let index = 0; index < 10; index++) {
+          const res = await sleep(500).then(()=> { return typeof pyodide });
+          if(res === "object") break;
+        }
+      } 
+      // get script in asynchronous loop
+      this.$loadScript('https://cdn.jsdelivr.net/pyodide/v0.17.0a2/full/pyodide.js')
+      .then(()=> {
+        asyncLoop().then(()=> {
+          fetch('/python/WaterContainer1.py')
+            .then(res => res.text())
+            .then((text) => pyodide.runPython(text))
+        });
+
+      })
+      .catch(()=>{ alert('Błąd podczas ładowania pliku. Wczytaj stronę ponownie')});
     },
     simulate(component, A, Beta, Qd, H, Tp, SimulationLength, hMax){
-      let x = pyodide.runPython(`
-      import math
-      import time
-      A = ${A}
-      #runoff coefficient, in m^(5/2)/s
-      Beta = ${Beta}
-      #Flow in in m^3/s, our input variable
-      Qd = ${Qd}
-      #Liquid height during steps, h(0) is the starting condition, in m
-      h = [${H}]
-      #Sampling time/step time
-      Tp = ${Tp}
-      #in hours
-      SimulationLength = ${SimulationLength}
-      #constraints
-      hMax = ${hMax}  
-
-      def run():
-          #print(A, Beta, Qd, H, Tp, SimulationLength, hMax)
-          iterations = int((3600 * SimulationLength) / Tp)
-     
-          print(iterations)
-          tic = time.time()
-          for n in range(iterations + 1):
-              #print("Value: ", n)  #yay, works, 36k iterations
-              #skip step n = 0
-              if (n == 0):
-                  continue
-              hNext = 1/A*(-1*Beta*math.sqrt(h[n-1])+Qd)*Tp+h[n-1]
-              if hNext > hMax:
-                  print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n*Tp, ' s.')
-                  break
-                  #raise ValueError('Try setting different parameters')
-              h.append(hNext)
-              #if(round(hNext,2) > round(h[n-1],2)):
-              #    print(round(hNext,2))
-              if(n == iterations):
-                  toc = time.time()
-                  print("Run script: ", toc - tic, ' s')
-                  print('finisz') 
-                  #print(h) 
-                  return h
-      #run(A, Beta, Qd, 5, Tp, SimulationLength, hMax)
-      x = run();
-      print('WaterContainer1.py loaded!')`);
-
-      console.log((pyodide.globals.get('x')).toJs());
+      // run method from python script
+      pyodide.runPythonAsync(`run${component}(${A}, ${Beta}, ${Qd}, ${H}, ${Tp}, ${SimulationLength}, ${hMax})`)
+        .then((res)=>{ 
+          this.python[`${component}`].x = res.toJs();
+          this.python[`${component}`].y = parseInt((3600 * SimulationLength) / Tp);
+        })
+        .then(()=> {
+          console.log(this.python[`${component}`].y, this.python[`${component}`].x)
+          //reload chart
+          CustomeChartVue.methods.updateData(1);
+          //push data to DB
+        });
     }
   }, 
-  
 }
 </script>
 

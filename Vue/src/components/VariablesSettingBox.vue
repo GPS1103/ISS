@@ -26,9 +26,7 @@ export default {
     },
     methods: {
         simulate(){
-           //this.$parent.$parent.test();
             this.$parent.$parent.simulate(this.$parent.$options.name, 10, 0.005, 0.05, 5, 0.01, 1, 20);
-            //(A, Beta, Qd, H, Tp, SimulationLength, hMax)
         }
     }
 }
@@ -36,8 +34,8 @@ export default {
 
 <style scoped>
     .container {
-        width: 30%;
-        height: 400px; /* TODO - RWD compatible */
+        width: 40%;
+        height: 450px; /* TODO - RWD compatible */
         position: relative;
         background-color: var(--primary-color);
         float: right;
