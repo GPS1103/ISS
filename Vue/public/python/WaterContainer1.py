@@ -21,7 +21,7 @@ import math
 
 #parameters
 
-#Area in m^2
+# #Area in m^2
 A = 10
 #runoff coefficient, in m^(5/2)/s
 Beta = 0.005
@@ -32,7 +32,7 @@ h = [5]
 from pprint import pprint
 print(len(h))
 #Sampling time/step time
-Tp = 0.1
+Tp = 0.01
 #in hours
 SimulationLength = 1
 
@@ -42,25 +42,29 @@ hMax = 20               #maximum length of container in meters
 #1: calculate number of iterations
 
 #2:loop
+import time
 def run(A, Beta, Qd, H, Tp, SimulationLength, hMax):
     print(A, Beta, Qd, H, Tp, SimulationLength, hMax)
-    iterations = int(3600 * SimulationLength / Tp)
-    #h=[H]
+    iterations = int((3600 * SimulationLength) / Tp)
+    h=[H]
+    print(iterations)
+    tic = time.time()
     for n in range(iterations + 1):
         #print("Value: ", n)  #yay, works, 36k iterations
-    #     #skip step n = 0
-        # if (n == 0):
-        #     continue
-        # print(h[n-1])
-        #hNext = (1/A*(-1*Beta*math.sqrt(h[n-1])+Qd)*Tp+h[n-1])
-    #     if hNext > hMax:
-    #         print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n*Tp, ' s.')
-    #         break
-    #         #raise ValueError('Try setting different parameters')
-    #     h.append(hNext)
-        #print(hNext)
-    #     if (hNext != result):
-    #         result = round(hNext, 2)
-    #         print(round(hNext, 2))
-
+        #skip step n = 0
+        if (n == 0):
+            continue
+        hNext = 1/A*(-1*Beta*math.sqrt(h[n-1])+Qd)*Tp+h[n-1]
+        if hNext > hMax:
+            print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n*Tp, ' s.')
+            break
+            #raise ValueError('Try setting different parameters')
+        h.append(hNext)
+        # if(round(hNext,2) > round(h[n-1],2)):
+        #     print(round(hNext,2))
+        if(n == iterations):
+            toc = time.time()
+            print("Run script: ", toc - tic)
+            print('finisz')    
+run(A, Beta, Qd, 5, Tp, SimulationLength, hMax)
 print('WaterContainer1.py loaded!')

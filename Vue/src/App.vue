@@ -23,6 +23,7 @@ Vue.use(Vuetify)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+  
 export default {
   name: 'App',
   components: {
@@ -31,12 +32,23 @@ export default {
   },
   mounted(){
     this.loadScript();
+    // async function main(){
+    //     await loadPyodide({
+    //       indexURL : "https://cdn.jsdelivr.net/pyodide/v0.17.0a2/full/"
+    //     });
+    //     console.log(pyodide.runPython(`
+    //         import sys
+    //         sys.version
+    //     `));
+    //     console.log(pyodide.runPython("print(1 + 2)"));
+    // }
+    // main();
   },
   methods: {
     loadScript(){
       brython();
     },
-    simulate(component, A, Beta, Qd, H, Tp, SimulationLength, hMax){
+    simulat(component, A, Beta, Qd, H, Tp, SimulationLength, hMax){
       if(component === "WaterContainer1"){
         __BRYTHON__.imported.WaterContainer1.run(A, Beta, Qd, H, Tp, SimulationLength, hMax);
       }
@@ -50,8 +62,58 @@ export default {
         __BRYTHON__.imported.test_python.test(y, z);
       }
       
+    },
+    simulate(component, A, Beta, Qd, H, Tp, SimulationLength, hMax){
+      let x = pyodide.runPython(`
+      import math
+      import time
+      A = ${A}
+      #runoff coefficient, in m^(5/2)/s
+      Beta = ${Beta}
+      #Flow in in m^3/s, our input variable
+      Qd = ${Qd}
+      #Liquid height during steps, h(0) is the starting condition, in m
+      h = [${H}]
+      #Sampling time/step time
+      Tp = ${Tp}
+      #in hours
+      SimulationLength = ${SimulationLength}
+      #constraints
+      hMax = ${hMax}  
+
+      def run():
+          #print(A, Beta, Qd, H, Tp, SimulationLength, hMax)
+          iterations = int((3600 * SimulationLength) / Tp)
+     
+          print(iterations)
+          tic = time.time()
+          for n in range(iterations + 1):
+              #print("Value: ", n)  #yay, works, 36k iterations
+              #skip step n = 0
+              if (n == 0):
+                  continue
+              hNext = 1/A*(-1*Beta*math.sqrt(h[n-1])+Qd)*Tp+h[n-1]
+              if hNext > hMax:
+                  print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n*Tp, ' s.')
+                  break
+                  #raise ValueError('Try setting different parameters')
+              h.append(hNext)
+              #if(round(hNext,2) > round(h[n-1],2)):
+              #    print(round(hNext,2))
+              if(n == iterations):
+                  toc = time.time()
+                  print("Run script: ", toc - tic, ' s')
+                  print('finisz') 
+                  #print(h) 
+                  return h
+      #run(A, Beta, Qd, 5, Tp, SimulationLength, hMax)
+      x = run();
+      print('WaterContainer1.py loaded!')`);
+
+      console.log((pyodide.globals.get('x')).toJs());
     }
-  } 
+  }, 
+  
 }
 </script>
 

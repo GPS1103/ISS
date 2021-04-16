@@ -26,7 +26,9 @@ export default {
     },
     methods: {
         simulate(){
-            this.$parent.$parent.simulate(this.$parent.$options.name, 10, 0.05, 0.005, 5, 0.01, 1, 20);
+           //this.$parent.$parent.test();
+            this.$parent.$parent.simulate(this.$parent.$options.name, 10, 0.005, 0.05, 5, 0.01, 1, 20);
+            //(A, Beta, Qd, H, Tp, SimulationLength, hMax)
         }
     }
 }
