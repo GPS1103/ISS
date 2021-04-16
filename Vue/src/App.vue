@@ -124,6 +124,8 @@ export default {
   --text-color: #112d32;
   --secondary-color-dark: #4f4a41;
   --secondary-color: #6e6658;
+  --buttons-color: #4e85ba;
+  --buttons-color-dark: #376087;
 }
 
 #app {
@@ -154,6 +156,16 @@ section {
   font-weight: 600;
   text-align: center;
   color: var(--text-color);
+}
+
+.button {
+  background: var(--buttons-color);
+  border-radius: 28px;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 10px 20px;
+  margin: 5px 10px;
+  border: 1px solid var(--buttons-color-dark);
 }
 
 </style>
