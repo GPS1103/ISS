@@ -1,7 +1,7 @@
 <template>
     <div class="web-content">
         <section>
-          <CustomeChart :y="y" :x="x"/>
+          <CustomeChart title="Superancki wykresik" type="spline" :data="volume"/>
           <VariablesSettingBox />
         </section>
     </div>
@@ -19,13 +19,7 @@ export default {
   },
   data(){
     return {
-      x: Number,
-      y: Array
-    }
-  },
-  watch: {
-    x: function(){
-      console.log('test');
+      volume: Array
     }
   },
 };

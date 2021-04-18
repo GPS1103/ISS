@@ -65,23 +65,8 @@ export default {
       // run method from python script
       pyodide.runPythonAsync(`run${component}(${A}, ${Beta}, ${Qd}, ${H}, ${Tp}, ${SimulationLength}, ${hMax})`)
         .then((res)=>{ 
-          this.$children[1].$data.y = res.toJs();
-          this.$children[1].$data.x = parseInt((3600 * SimulationLength) / Tp);
+          this.$children[1].$data.volume = res.toJs();
         })
-        .then(()=> {
-          // console.log(this.python[`${component}`].y, this.python[`${component}`].x);
-          // this.$children[1].$data.x = this.python[`${component}`].x;
-          // this.$children[1].$data.y = this.python[`${component}`].y;
-         // this.$children[1].updateChart();
-          console.log(this.$children[1].$data.x);
-          //this.$emit('update');
-          //reload chart
-          //console.log(this.$refs);
-          //this.$refs.form.updateChart();
-         // console.log(this.$children.CustomeChartVue);
-          //CustomeChartVue.methods.changeUi();
-          //push data to DB
-        });
     }
   }, 
 }
