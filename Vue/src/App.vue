@@ -26,7 +26,6 @@ Vue.use(Vuetify)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(LoadScript)
-
   
 export default {
   name: 'App',
@@ -34,31 +33,10 @@ export default {
     AppHeader,
     AppFooter
   },
-  data() {
-    return{
-      python: {
-        WaterContainer1: {
-          x: Array,   // array with data from python method
-          y: Number   // number of iteration
-        },
-        WaterContainer2: {
-          x: Array,
-          y: Number
-        },
-        WaterContainer3: {
-          x: Array,
-          y: Number
-        },
-        WaterContainer4: {
-          x: Array,
-          y: Number
-        }
-      }
-    }
-  },
   created(){
     this.loadPythonScript();
   },
+  emits: ['updateChart'],
   methods: {
     loadPythonScript(){
       const sleep = ms => {
@@ -87,13 +65,21 @@ export default {
       // run method from python script
       pyodide.runPythonAsync(`run${component}(${A}, ${Beta}, ${Qd}, ${H}, ${Tp}, ${SimulationLength}, ${hMax})`)
         .then((res)=>{ 
-          this.python[`${component}`].x = res.toJs();
-          this.python[`${component}`].y = parseInt((3600 * SimulationLength) / Tp);
+          this.$children[1].$data.y = res.toJs();
+          this.$children[1].$data.x = parseInt((3600 * SimulationLength) / Tp);
         })
         .then(()=> {
-          console.log(this.python[`${component}`].y, this.python[`${component}`].x)
+          // console.log(this.python[`${component}`].y, this.python[`${component}`].x);
+          // this.$children[1].$data.x = this.python[`${component}`].x;
+          // this.$children[1].$data.y = this.python[`${component}`].y;
+         // this.$children[1].updateChart();
+          console.log(this.$children[1].$data.x);
+          //this.$emit('update');
           //reload chart
-          CustomeChartVue.methods.updateData(1);
+          //console.log(this.$refs);
+          //this.$refs.form.updateChart();
+         // console.log(this.$children.CustomeChartVue);
+          //CustomeChartVue.methods.changeUi();
           //push data to DB
         });
     }

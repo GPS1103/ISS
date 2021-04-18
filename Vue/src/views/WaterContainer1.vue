@@ -1,7 +1,7 @@
 <template>
     <div class="web-content">
         <section>
-          <CustomeChart />
+          <CustomeChart :y="y" :x="x"/>
           <VariablesSettingBox />
         </section>
     </div>
@@ -16,7 +16,18 @@ export default {
   components: {
     VariablesSettingBox,
     CustomeChart
-  }
+  },
+  data(){
+    return {
+      x: Number,
+      y: Array
+    }
+  },
+  watch: {
+    x: function(){
+      console.log('test');
+    }
+  },
 };
 </script>
 
