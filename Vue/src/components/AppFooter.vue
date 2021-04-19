@@ -1,14 +1,14 @@
 <template>
     <footer class="element">
         <div id='footer-container'>
-            <v-tabs fixed-tabs dark slider-size="4" show-arrows background-color="#6e6658" color="#FFF">
+            <v-tabs fixed-tabs dark background-color="#6e6658" color="#FFF">
                 <!-- <v-tabs-slider color="#a074c4"></v-tabs-slider> -->
                 <v-tab v-for="item in items"
                     :key="item.tab"
-                    
                     :disabled="item.disabled"
                     @click="goToPage(item.page)"> 
-                    {{ item.tab }}</v-tab> 
+                    {{ item.tab }}
+                </v-tab> 
             </v-tabs>  
         </div>
     </footer>
@@ -33,22 +33,28 @@ export default {
 }
 </script>
 
-<style scoped>
-    footer {
-        position: absolute;
-        flex-shrink: 0;
-        margin: 0;
-        bottom: 0;
-        height: 50px;
-        width: 100%;
-        background-color: var(--secondary-color);
+<style scoped lang="scss">
+@import "@/scss/variables.scss";
+
+footer {
+    position: absolute;
+    flex-shrink: 0;
+    margin: 0;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    background-color: $secondary-color;
+    z-index: 5;
+}
+#footer-container {
+    padding: 2px 0px 2px 0px;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    flex-wrap: nowrap;
+
+    @media (min-width: $break-desktop) {
+      width: 80%;
     }
-    #footer-container {
-        padding: 2px 0px 2px 0px;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-    }
+}
 </style>

@@ -1,9 +1,10 @@
 <template>
     <div class="web-content">
-        <section>
-          <CustomeChart />
-          <VariablesSettingBox />
-        </section>
+      <h1 class="pageTitle">FIRST APPLICATION</h1>
+      <section>
+        <CustomeChart />
+        <VariablesSettingBox />
+      </section>
     </div>
 </template>
 
@@ -20,8 +21,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped  lang="scss">
+@import "@/scss/variables.scss";
+
   section {
-    display: flex;
+    display: block;
+    margin-bottom: 70px;
+
+    @media (min-width: $break-desktop) {
+      display: flex;
+    }
   }
 </style>

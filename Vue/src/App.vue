@@ -1,6 +1,5 @@
 <template @click="click">
   <div id="app">
-      <AppHeader /> 
        <child @simulate="simulate"></child>
         <router-view />
       <AppFooter />
@@ -11,7 +10,7 @@
 <script>
 import Vue from 'vue'
 import VueConfetti from 'vue-confetti'
-import AppHeader from './components/AppHeader'
+// import AppHeader from './components/AppHeader'
 import AppFooter from './components/AppFooter'
 import Vuetify from 'vuetify'
 import { BIconX, BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -31,7 +30,7 @@ Vue.use(LoadScript)
 export default {
   name: 'App',
   components: {
-    AppHeader,
+    // AppHeader,
     AppFooter
   },
   data() {
@@ -101,16 +100,8 @@ export default {
 }
 </script>
 
-<style>
-:root {
-  --primary-color: #88bdbc;
-  --primary-color-dark: #254e58;
-  --text-color: #112d32;
-  --secondary-color-dark: #4f4a41;
-  --secondary-color: #6e6658;
-  --buttons-color: #4e85ba;
-  --buttons-color-dark: #376087;
-}
+<style lang="scss">
+@import "@/scss/variables.scss";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -118,38 +109,46 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  min-height: 100%;
-  min-width: 100%;
+  height: 100vh;
   margin: 0px;
 }
 
 .element {
-  background-color: var(--secondary-color);
+  background-color: $secondary-color;
 }
 
 .web-content {
   display: block;
-}
-
-section {
-  margin-top: 10%;
+  height: 100%;
+  overflow: auto;
 }
 
 .title {
   font-size: 24px;
   font-weight: 600;
   text-align: center;
-  color: var(--text-color);
+  color: $text-color;
 }
 
 .button {
-  background: var(--buttons-color);
+  background: $buttons-color;
   border-radius: 28px;
   color: #ffffff;
   font-size: 18px;
   padding: 10px 20px;
   margin: 5px 10px;
-  border: 1px solid var(--buttons-color-dark);
+  border: 1px solid $buttons-color-dark;
 }
 
+.pageTitle {
+  font-family: verdana;
+  font-variant: small-caps;
+  text-align: center;
+  font-size: 43px;
+  letter-spacing: 5px;
+  word-spacing: 10px;
+  color: $secondary-color-dark;
+  text-shadow: rgb(0, 0, 0) 2px 2px 2px;
+  margin: 2% auto;
+}
 </style>

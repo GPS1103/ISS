@@ -39,14 +39,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "@/scss/variables.scss";
+
     .sliderContainer {
       display: flex;
       margin: 2% 5%;
     }
 
     .vue-slider-process {
-      background-color: var(--secondary-color);
+      background-color: $secondary-color;
     }
 
     .sliderName {

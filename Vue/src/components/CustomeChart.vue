@@ -52,9 +52,15 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+@import "@/scss/variables.scss";
+
   .small {
-    max-width: 600px;
-    margin: auto;
+      width: fit-content;
+      margin: 5% auto;
+
+    @media (min-width: $break-desktop) {
+      max-width: 600px;
+    }
   }
 </style>

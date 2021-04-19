@@ -4,8 +4,7 @@
         <div v-for="item in items" v-bind:key="item.name">
             <Slider :value="item.value" :name="item.name" />
         </div>
-        <v-btn id='simulation-btn' @click="simulate()">Symuluj</v-btn>
-
+        <button class="button" @click="simulate()">Symuluj</button>
     </div>
 </template>
 
@@ -32,27 +31,31 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/scss/variables.scss";
+
     .container {
-        width: 40%;
-        height: 450px; /* TODO - RWD compatible */
+        width: 80%;
+        margin: 5% auto;
         position: relative;
-        background-color: var(--primary-color);
-        float: right;
-        margin: 5% 10%;
+        background-color: $primary-color;
         border-radius: 3%;
         box-shadow: 5px 7px 20px -7px rgba(0,0,0,0.69);
-    }
 
+        @media (min-width: $break-desktop) {
+            width: 40%;
+            float: right;
+            margin: 5% 10%;
+        }
+    }
     .title {
         font-size: 20px;
         margin: 5% auto;
     }
-    #simulation-btn {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        margin: 0px 0px 10px 0px;
-        width: 100%;
+    .button {
+        background-color: whitesmoke;
+        border-color: rgb(171,171,171);
+        color: black;
+        width: 50%;
     }
 </style>
