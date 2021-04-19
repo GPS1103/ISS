@@ -2,7 +2,7 @@
     <div class="web-content">
       <h1 class="pageTitle">FIRST APPLICATION</h1>
       <section>
-        <CustomeChart />
+        <CustomeChart title="Superancki wykresik" type="spline" :data="volume" />
         <VariablesSettingBox />
       </section>
     </div>
@@ -17,7 +17,12 @@ export default {
   components: {
     VariablesSettingBox,
     CustomeChart
-  }
+  },
+  data(){
+    return {
+      volume: Array
+    }
+  },
 };
 </script>
 

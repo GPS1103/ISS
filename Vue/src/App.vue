@@ -25,7 +25,6 @@ Vue.use(Vuetify)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(LoadScript)
-
   
 export default {
   name: 'App',
@@ -33,31 +32,10 @@ export default {
     // AppHeader,
     AppFooter
   },
-  data() {
-    return{
-      python: {
-        WaterContainer1: {
-          x: Array,   // array with data from python method
-          y: Number   // number of iteration
-        },
-        WaterContainer2: {
-          x: Array,
-          y: Number
-        },
-        WaterContainer3: {
-          x: Array,
-          y: Number
-        },
-        WaterContainer4: {
-          x: Array,
-          y: Number
-        }
-      }
-    }
-  },
   created(){
     this.loadPythonScript();
   },
+  emits: ['updateChart'],
   methods: {
     loadPythonScript(){
       const sleep = ms => {
@@ -86,15 +64,8 @@ export default {
       // run method from python script
       pyodide.runPythonAsync(`run${component}(${A}, ${Beta}, ${Qd}, ${H}, ${Tp}, ${SimulationLength}, ${hMax})`)
         .then((res)=>{ 
-          this.python[`${component}`].x = res.toJs();
-          this.python[`${component}`].y = parseInt((3600 * SimulationLength) / Tp);
+          this.$children[1].$data.volume = res.toJs();
         })
-        .then(()=> {
-          console.log(this.python[`${component}`].y, this.python[`${component}`].x)
-          //reload chart
-          CustomeChartVue.methods.updateData(1);
-          //push data to DB
-        });
     }
   }, 
 }
