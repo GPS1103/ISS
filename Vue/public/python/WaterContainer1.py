@@ -45,7 +45,7 @@ h = liquid level inside of container
 import math
 import time
 
-def runWaterContainer1(A, Beta, Qd, H, Tp, SimulationLength, hMax):
+def runWaterContainer1(A, Beta, Qd, H, hMax, Tp, SimulationLength):
     print(A, Beta, Qd, H, Tp, SimulationLength, hMax)
     iterations = int((3600 * SimulationLength) / Tp)
     h=[H]
@@ -59,7 +59,7 @@ def runWaterContainer1(A, Beta, Qd, H, Tp, SimulationLength, hMax):
         hNext = 1/A*(-1*Beta*math.sqrt(h[n-1])+Qd)*Tp+h[n-1]
         if hNext > hMax:
             print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n*Tp, ' s.')
-            break
+            return h
             #raise ValueError('Try setting different parameters')
         h.append(hNext)
         # if(round(hNext,2) > round(h[n-1],2)):

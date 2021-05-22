@@ -1,6 +1,6 @@
 <template>
   <div class='sliderContainer'>
-    <vue-slider v-bind="options" v-model="value" />
+    <vue-slider v-bind="options" v-model="value" :min="min" :max="max" :data="data" :interval="interval"/>
     <div class='sliderName'>{{ name }}</div>
   </div>
 </template>
@@ -17,25 +17,40 @@ export default {
   data () {
     return {
       options: {
-        max: 100,
         width: '60%',
-      }
+      },
+      value: this.initialValue
     }
   },
-    props: {
-        value: {
-            type: Number,
-            default: 0
-        },
-        name: {
-            type: String,
-        }
+  props: {
+    name:{
+      type: String,
+      default: ''
     },
-  watch: {
-    value(range) {
-      console.log(range, this.name);
-    }
-  }
+    min: { 
+      type: Number,
+      default: 3
+    },
+    max: { 
+      type: Number,
+      default: 3
+    },
+    data: {
+      type: Array
+    },
+    interval: {
+      type: Number
+    },
+    initialValue: {
+      type: Number
+    }  
+  },
+  // watch: {
+  //   value(range) {
+  //     console.log(range, this.name);
+  //     console.log(this.initialValue);
+  //   }
+  // }
 }
 </script>
 

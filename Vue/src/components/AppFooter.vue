@@ -1,7 +1,7 @@
 <template>
     <footer class="element">
         <div id='footer-container'>
-            <v-tabs fixed-tabs dark background-color="#6e6658" color="#FFF">
+            <v-tabs v-model="active_tab" fixed-tabs dark background-color="#6e6658" color="#FFF">
                 <!-- <v-tabs-slider color="#a074c4"></v-tabs-slider> -->
                 <v-tab v-for="item in items"
                     :key="item.tab"
@@ -17,7 +17,11 @@
 
 export default {
     name: 'AppFooter',
+    mounted(){
+        this.active_tab = this.$route.meta.number;
+    },
     data: ()=>({
+        active_tab: 0,
         items: [
             { tab: 'Apka 1', disabled: false, page: 'WaterContainer1'},
             { tab: 'Apka 2', disabled: false, page: 'WaterContainer2' },

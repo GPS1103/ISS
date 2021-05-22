@@ -15,7 +15,7 @@ const routes = [
         name: "WaterContainer4",
         component: WaterContainer4,
         meta: {
-            number: 4
+            number: 3
         }
     },
     {
@@ -23,7 +23,7 @@ const routes = [
         name: "WaterContainer3",
         component: WaterContainer3,
         meta: {
-            number: 3
+            number: 2
         }
     },
     {
@@ -31,7 +31,7 @@ const routes = [
         name: "WaterContainer2",
         component: WaterContainer2,
         meta: {
-            number: 2
+            number: 1
         }
     },
     {
@@ -55,7 +55,7 @@ const routes = [
         name: "WaterContainer1",
         component: WaterContainer1,
         meta: {
-            number: 1
+            number: 0
         }
     }
 ];

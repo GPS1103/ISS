@@ -2,7 +2,7 @@
     <div class="web-content">
       <h1 class="pageTitle">FIRST APPLICATION</h1>
       <section>
-        <CustomeChart title="Superancki wykresik" type="spline" :data="volume" />
+        <CustomeChart title="Superancki wykresik" type="spline" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu wody [m]"/>
         <VariablesSettingBox />
       </section>
     </div>

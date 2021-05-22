@@ -1,8 +1,7 @@
 <template @click="click">
   <div id="app">
-       <child @simulate="simulate"></child>
-        <router-view />
-      <AppFooter />
+    <router-view />
+    <AppFooter />
   </div>
 </template>
 
@@ -25,7 +24,7 @@ Vue.use(Vuetify)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(LoadScript)
-  
+
 export default {
   name: 'App',
   components: {
@@ -34,8 +33,14 @@ export default {
   },
   created(){
     this.loadPythonScript();
+    this.preventButtonFuction();
   },
   emits: ['updateChart'],
+  data(){
+    return {
+      freezeButtons: true
+    }
+  },
   methods: {
     loadPythonScript(){
       const sleep = ms => {
@@ -55,19 +60,50 @@ export default {
           fetch('/python/WaterContainer1.py')
             .then(res => res.text())
             .then((text) => pyodide.runPython(text))
+            this.freezeButtons = false;
         });
-
       })
       .catch(()=>{ alert('Błąd podczas ładowania pliku. Wczytaj stronę ponownie')});
     },
-    simulate(component, A, Beta, Qd, H, Tp, SimulationLength, hMax){
+    simulate(component, A, Beta, Qd, H, hMax, Tp, SimulationLength){
       // run method from python script
-      pyodide.runPythonAsync(`run${component}(${A}, ${Beta}, ${Qd}, ${H}, ${Tp}, ${SimulationLength}, ${hMax})`)
+      this.freezeButtons = true;
+      console.log(A, Beta, Qd, H, hMax, Tp, SimulationLength);
+      pyodide.runPythonAsync(`run${component}(${A}, ${Beta}, ${Qd}, ${H}, ${hMax}, ${Tp}, ${SimulationLength})`)
         .then((res)=>{ 
-          this.$children[1].$data.volume = res.toJs();
+          const result = this.$children.find(child => { return child.$options.name === component });
+          if(component === "WaterContainer1") result.$data.volume = res.toJs();
         })
+    },
+    preventButtonFuction(){
+      document.addEventListener("click", e => {
+        if(this.freezeButtons) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      }, true);
+
+      document.body.style.opacity = 0.6;
+    },
+    disableButtons(value){
+      var buttons = document.querySelectorAll('button');
+      [].forEach.call(buttons, function(button) {
+        button.disabled = value;
+      });
     }
-  }, 
+  },
+  watch:{
+    freezeButtons: function(){
+      if(this.freezeButtons){
+        document.body.style.opacity = 0.6;
+        this.disableButtons(true);
+      }
+      else {
+        document.body.style.opacity = 1;
+        this.disableButtons(false);
+      }
+    }
+  }
 }
 </script>
 
