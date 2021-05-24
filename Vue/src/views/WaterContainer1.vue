@@ -23,6 +23,12 @@ export default {
       volume: Array
     }
   },
+  // methods: {
+  //   login(){
+  //     console.log('losgin');
+  //     this.$router.push({name: "Login"})
+  //   }
+  // }
 };
 </script>
 

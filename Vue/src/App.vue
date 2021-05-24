@@ -1,5 +1,6 @@
 <template @click="click">
   <div id="app">
+    <AppHeader />
     <router-view />
     <AppFooter />
   </div>
@@ -9,7 +10,7 @@
 <script>
 import Vue from 'vue'
 import VueConfetti from 'vue-confetti'
-// import AppHeader from './components/AppHeader'
+import AppHeader from './components/AppHeader'
 import AppFooter from './components/AppFooter'
 import Vuetify from 'vuetify'
 import { BIconX, BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -18,7 +19,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import LoadScript from 'vue-plugin-load-script'
 import WaterContainer1Vue from './views/WaterContainer1.vue'
 import CustomeChartVue from './components/CustomeChart.vue'
-
+import axios from 'axios'
 Vue.use(VueConfetti)
 Vue.use(Vuetify)
 Vue.use(BootstrapVue)
@@ -28,7 +29,7 @@ Vue.use(LoadScript)
 export default {
   name: 'App',
   components: {
-    // AppHeader,
+    AppHeader,
     AppFooter
   },
   created(){
@@ -38,7 +39,9 @@ export default {
   emits: ['updateChart'],
   data(){
     return {
-      freezeButtons: true
+      freezeButtons: true,
+      logged: false,
+      user: null
     }
   },
   methods: {

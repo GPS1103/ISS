@@ -1,15 +1,18 @@
 <template>
     <footer class="element">
         <div id='footer-container'>
-            <v-tabs v-model="active_tab" fixed-tabs dark background-color="#6e6658" color="#FFF">
+            <b-tooltip v-if="!this.$parent.$children.find( child => { return child.$options.name == 'AppHeader'}).$data.user" target="xx" triggers="hover">
+                Zaloguj się aby odblokować pozostałe aplikacje
+            </b-tooltip>
+            <v-tabs id='xx' v-model="active_tab" fixed-tabs dark background-color="#6e6658" color="#FFF">
                 <!-- <v-tabs-slider color="#a074c4"></v-tabs-slider> -->
                 <v-tab v-for="item in items"
                     :key="item.tab"
                     :disabled="item.disabled"
-                    @click="goToPage(item.page)"> 
+                    @click="goToPage(item.page)" > 
                     {{ item.tab }}
                 </v-tab> 
-            </v-tabs>  
+            </v-tabs> 
         </div>
     </footer>
 </template>
@@ -17,6 +20,7 @@
 
 export default {
     name: 'AppFooter',
+  
     mounted(){
         this.active_tab = this.$route.meta.number;
     },
@@ -24,14 +28,31 @@ export default {
         active_tab: 0,
         items: [
             { tab: 'Apka 1', disabled: false, page: 'WaterContainer1'},
-            { tab: 'Apka 2', disabled: false, page: 'WaterContainer2' },
-            { tab: 'Apka 3', disabled: false, page: 'WaterContainer3'},
-            { tab: 'Apka 4', disabled: false, page: 'WaterContainer4'}
+            { tab: 'Apka 2', disabled: true, page: 'WaterContainer2' },
+            { tab: 'Apka 3', disabled: true, page: 'WaterContainer3'},
+            { tab: 'Apka 4', disabled: true, page: 'WaterContainer4'}
         ]
     }),
     methods: {
         goToPage(page){
-            if(page !== this.$route.name) this.$router.push({name: page});
+            if(page !== this.$route.name){ 
+                const pages = this.items.reduce((res, value) => {
+                    res.push(value.page);
+                    return res;
+                }, [])
+                console.log(![1,2,3].includes(pages.indexOf(page)));
+                console.log(this.$root.$children[0].$data.logged);
+
+                if(pages.indexOf(page) == 0 || this.$parent.$children.find( child => { return child.$options.name == 'AppHeader'}).$data.user){
+                    this.$router.push({name: page})
+                }
+                else {
+                    this.$router.push({name: "WaterContainer1"});
+                    this.active_tab = 0;
+                    alert('Aby skorzystać z tej aplikacji musisz być zalogowany');
+                    
+                }
+            }
         }
     }
 }

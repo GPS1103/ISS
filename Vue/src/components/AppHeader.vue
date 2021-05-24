@@ -1,60 +1,52 @@
 <template>
     <header class="element">
-        <div>{{ title }}</div>
-        <div id="widgets">
-            <VueSpeedometer 
-                :forceRender="true"
-                :maxSegmentLabels="1"
-                :customSegmentStops="[0, 777, 1000]"
-                :segmentColors='["#5959ac", "#AAA"]'
-                needleColor="#b4b8b5"
-                :currentValueText='"Current Value: \${value}"'
-                :value="toggle ? 333 : 555"
-                textColor="${textColor}"
-                :width="200"
-                :height="200"
-            />
-            <VueSpeedometer 
-                :forceRender="true"
-                :maxSegmentLabels="1"
-                :customSegmentStops="[0, 777, 1000]"
-                :segmentColors='["#5959ac", "#AAA"]'
-                needleColor="#b4b8b5"
-                :currentValueText='"Current Value: \${value}"'
-                :value="toggle ? 333 : 555"
-                textColor="${textColor}"
-                :width="200"
-                :height="200"
-            />
-            <button class="button header" @click="goToPage()">Login</button>
-        </div>
+        <h6 v-if="user">Witaj, {{user}}</h6>
+        <h6 v-if="!user">Nie jesteś zalogowany!</h6>
+        <button v-if="this.$route.name != 'Login' && !user" class="button" @click="login()">Zaloguj się</button>
+        <button v-if="this.$route.name != 'Login' && user" class="button" @click="logout()">Wyloguj się</button>
     </header>
 </template>
 
 <script>
-import VueSpeedometer from "vue-speedometer"
-
+import axios from 'axios'
 export default {
     name: 'AppHeader',
-    components: {
-       VueSpeedometer
-    },
-    created(){
-        setInterval( ()=>(this.toggle =! this.toggle), 1111);
-    },
     data(){
         return {
-            toggle: false,
+            user: null
         }
     },
-    props: {
-        title: {
-            type: String,
-        }
+    created(){
+        this.checkUser();
+        console.log(this.$route.name);
     },
     methods: {
-        goToPage(){
-            if('Login' !== this.$route.name) this.$router.push({name: 'Login'});
+        login(){
+            console.log('losgin');
+            this.$router.push({name: "Login"})
+        },
+        checkUser(){
+            axios.get('user')
+                .then( res =>{ 
+                    console.log(res);
+                    this.user = res.user;
+                })
+                .catch( err => {
+                    console.log(err);
+                    //for test
+                    // this.user = 'test';
+                    // const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})
+                    // appFooter.$data.items.forEach( item => item.disabled = false);
+                    
+                })
+        },
+        logout(){
+            localStorage.removeItem('token');
+            this.user = null; 
+            this.$router.push("WaterContainer1");
+            const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})
+            appFooter.$data.items.forEach( (item, index) => { if(index != 0) item.disabled = true; });
+            appFooter.$data.active_tab = 0;
         }
     }
 }
@@ -62,19 +54,12 @@ export default {
 
 <style>
     header {
-        position: absolute;
-        flex-shrink: 0;
+        display: flex;
+        flex-wrap: nowrap;
         margin: 0;
         top: 0;
-        height: 130px;
-        width: 100%;
-    }
-
-    #widgets {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        height: 100%;
+        height: 60px;
+        /* width: 100%; */
     }
     .segment-value, .current-value{
         font-size: 10px !important;
