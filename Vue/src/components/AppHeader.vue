@@ -1,8 +1,17 @@
 <template>
     <header class="element">
-        <h6 v-if="user">Witaj, {{user}}</h6>
-        <h6 v-if="!user">Nie jesteś zalogowany!</h6>
-        <button v-if="this.$route.name != 'Login' && !user" class="button" @click="login()">Zaloguj się</button>
+        <div @click="goBack()">
+            <img class="logo" alt="logo" src="../assets/logo2.png">
+        </div>
+        <!--<h6 v-if="user">Witaj, {{user}}</h6>
+        <h6 v-if="!user">Nie jesteś zalogowany!</h6>-->
+        <button class="info" @click="$emit('showModal')">
+            Pomoc
+        </button>
+        <button v-if="this.$route.name != 'Login' && !user" class="button" @click="login()">
+            Zaloguj się
+            <b-icon-power></b-icon-power>
+        </button>
         <button v-if="this.$route.name != 'Login' && user" class="button" @click="logout()">Wyloguj się</button>
     </header>
 </template>
@@ -13,7 +22,7 @@ export default {
     name: 'AppHeader',
     data(){
         return {
-            user: null
+            user: null,
         }
     },
     created(){
@@ -21,6 +30,9 @@ export default {
         console.log(this.$route.name);
     },
     methods: {
+        goBack(){
+            this.$router.push({name: "WaterContainer1"})
+        },
         login(){
             console.log('losgin');
             this.$router.push({name: "Login"})
@@ -47,28 +59,59 @@ export default {
             const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})
             appFooter.$data.items.forEach( (item, index) => { if(index != 0) item.disabled = true; });
             appFooter.$data.active_tab = 0;
+            this.$emit('clicked', true);
         }
     }
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "@/scss/variables.scss";
+
     header {
         display: flex;
         flex-wrap: nowrap;
         margin: 0;
         top: 0;
         height: 60px;
+        padding: 0 2%;
         /* width: 100%; */
     }
-    .segment-value, .current-value{
+    .segment-value, .current-value {
         font-size: 10px !important;
     }
 
-    .button.header{
-        margin: auto 10px  !important;
-        transform: scale(1.3) !important;
-        line-height: initial;
-        height: fit-content;
+    .info {
+        padding: 10px 20px;
+        letter-spacing: 2px;
+        color: #babbc9 !important;
+        margin: 10px;
+        position: absolute;
+        right: 160px;
+
+        @media (min-width: $break-desktop) {
+            right: 220px;
+        }
+    }
+
+    .button {
+        float: right;
+        box-shadow: none !important;
+
+        @media (max-width: $break-desktop) {
+            padding: 10px !important;
+        }
+    }
+
+    // .button.header {
+    //     margin: auto 10px  !important;
+    //     transform: scale(1.3) !important;
+    //     line-height: initial;
+    //     height: fit-content;
+    // }
+
+    .logo {
+        float: left;
+        height: 50px;
     }
 </style>

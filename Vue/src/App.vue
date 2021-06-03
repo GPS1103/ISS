@@ -1,6 +1,10 @@
 <template @click="click">
   <div id="app">
-    <AppHeader />
+    <AppHeader @clicked="showLogoutMessage" @showModal="showModal" />
+    <div class="alert alert-primary" role="alert" :style="{opacity: isSuccessAlertShow ? 1 : 0}">
+        Zostałeś wylogowany.
+    </div>
+    <Modal v-if="isModalShow" @close="closeModal" />
     <router-view />
     <AppFooter />
   </div>
@@ -19,6 +23,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import LoadScript from 'vue-plugin-load-script'
 import WaterContainer1Vue from './views/WaterContainer1.vue'
 import CustomeChartVue from './components/CustomeChart.vue'
+import Modal from './components/Modal.vue'
 import axios from 'axios'
 Vue.use(VueConfetti)
 Vue.use(Vuetify)
@@ -30,7 +35,8 @@ export default {
   name: 'App',
   components: {
     AppHeader,
-    AppFooter
+    AppFooter,
+    Modal
   },
   created(){
     this.loadPythonScript();
@@ -41,10 +47,24 @@ export default {
     return {
       freezeButtons: true,
       logged: false,
-      user: null
+      user: null,
+      isSuccessAlertShow: false,
+      isModalShow: false,
     }
   },
   methods: {
+    showModal(){
+      this.isModalShow = true;
+    },
+    closeModal(){
+      this.isModalShow = false;
+    },
+    showLogoutMessage(){
+      this.isSuccessAlertShow = true;
+      setTimeout(() => {
+          this.isSuccessAlertShow = false;
+      }, 2000);
+    },
     loadPythonScript(){
       const sleep = ms => {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -121,6 +141,11 @@ export default {
   color: #2c3e50;
   height: 100vh;
   margin: 0px;
+  overflow: hidden;
+
+  @media (max-width: $break-desktop) {
+    overflow: auto;
+  }
 }
 
 .element {
@@ -131,6 +156,10 @@ export default {
   display: block;
   height: 100%;
   overflow: auto;
+
+  @media (max-width: $break-desktop) {
+    padding-bottom: 100px;
+  }
 }
 
 .title {
@@ -141,13 +170,28 @@ export default {
 }
 
 .button {
-  background: $buttons-color;
   border-radius: 28px;
-  color: #ffffff;
   font-size: 18px;
   padding: 10px 20px;
   margin: 5px 10px;
   border: 1px solid $buttons-color-dark;
+
+  background: lighten($buttons-color, 3%);
+  border: 1px solid darken($buttons-color, 4%);
+  box-shadow: 0px 1px 0 darken(#a4b1b9, 1%), 1px 2px 2px darken(#a4b1b9, 2%);
+  font-weight: 500;
+  letter-spacing: 2px;
+  transition: all 150ms linear;
+
+&:hover {
+  background: darken($buttons-color, 20%);
+  border: 1px solid rgba(#000, .05);
+  box-shadow: 1px 1px 2px rgba(grey, .2);
+  color: lighten($buttons-color, 18%);
+  text-decoration: none;
+  text-shadow: -1px -1px 0 darken($buttons-color, 9.5%);
+  transition: all 250ms linear;
+}
 }
 
 .pageTitle {
@@ -160,5 +204,31 @@ export default {
   color: $secondary-color-dark;
   text-shadow: rgb(0, 0, 0) 2px 2px 2px;
   margin: 2% auto;
+
+  @media (max-width: $break-mobile) {
+    font-size: 30px;
+    margin: 8% 3%;
+  }
+}
+
+.alert {
+    opacity: 0;
+    position: absolute;
+    width: 50%;
+    top: 100px;
+    right: 25%;
+    transition: all .5s;
+    &.alert-primary {
+        background-color: #007BFF;
+        color: #fff;
+        font-size: 18px;
+        border: none;
+    }
+    .widget {
+        position: absolute;
+        right: 5px;
+        top: 0;
+        margin: 10px;
+    }
 }
 </style>

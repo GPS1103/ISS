@@ -4,7 +4,10 @@
         <div v-for="item in items" :key="item.name">
             <Slider :name="item.name" :initialValue="item.initialValue" :min="item.min" :max="item.max" :data="item.data" :interval="item.interval"/>
         </div>
-        <button class="button" @click="simulate()">Symuluj</button>
+        <button class="button" @click="simulate()">
+            Symuluj
+            <b-icon-gear></b-icon-gear>
+        </button>
     </div>
 </template>
 
@@ -54,27 +57,37 @@ export default {
 @import "@/scss/variables.scss";
 
     .container {
-        width: 80%;
-        margin: 5% auto;
+        width: 70%;
+        margin: 3% auto;
         position: relative;
         background-color: $primary-color;
         border-radius: 3%;
         box-shadow: 5px 7px 20px -7px rgba(0,0,0,0.69);
+        padding-bottom: 70px;
 
         @media (min-width: $break-desktop) {
             width: 40%;
-            float: right;
-            margin: 5% 10%;
+            margin: 3% 5%;
+            position: absolute;
+            left: 0;
+            padding-bottom: 10px;
+        }
+
+        @media (min-width: $break-big-desktop) {
+            width: 35%;
+            margin: 3% 10%;
         }
     }
     .title {
         font-size: 20px;
         margin: 5% auto;
     }
+
     .button {
-        background-color: whitesmoke;
-        border-color: rgb(171,171,171);
-        color: black;
+        // background-color: whitesmoke;
+        // border-color: rgb(171,171,171);
+        // color: black;
+        margin-left: 25%;
         width: 50%;
     }
 </style>

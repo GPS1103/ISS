@@ -107,6 +107,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/variables.scss";
 section {
   margin-top: 0;
 }
@@ -114,8 +115,11 @@ section {
   text-align: left;
 }
 .container{
-  width: 40%;
   justify-content: center;
+
+    @media (min-width: $break-desktop) {
+        width: 40%;
+    }
 }
 .widget {
     margin: 0;
@@ -126,12 +130,14 @@ section {
 }
 .login-panel {
     position: relative;
-    padding: 200px 0;
+    padding: 150px 0;
+
     .alert {
         opacity: 0;
         position: absolute;
         width: 100%;
         top: 100px;
+        right: 0;
         transition: all .5s;
         &.alert-primary {
             background-color: #007BFF;
@@ -154,6 +160,10 @@ section {
     }
 }
 button {
-  width: 25%;
+  width: 35%;
+
+    @media (min-width: $break-desktop) {
+        width: 25%;
+    }
 }
 </style>

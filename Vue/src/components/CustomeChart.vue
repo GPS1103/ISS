@@ -85,16 +85,32 @@ export default {
 @import "@/scss/variables.scss";
 
   .small {
-      width: fit-content;
+      max-width: 500px;
       margin: 5% auto;
+      right: 40%;
+
+    @media (max-width: $break-mobile) {
+      max-width: 350px;
+      right: 400px;
+    }
 
     @media (min-width: $break-desktop) {
-      max-width: 600px;
+      max-width: 500px;
+      position: absolute;
+      margin: 5% 5%;
+    }
+
+    @media (min-width: $break-big-desktop) {
+      max-width: 700px;
+      position: absolute;
+      margin: 5% 15%;
+      right: 30%;
     }
   }
+  
   #chart-container {
-  width: 100%;
-  height: 400px;
-  margin: none
-}
+    width: 100%;
+    height: 400px;
+    margin: none
+  }
 </style>

@@ -66,8 +66,14 @@ export default {
       background-color: $secondary-color;
     }
 
+    .vue-slider {
+      width: 40% !important;
+    }
+
     .sliderName {
       margin-left: 5%;
+      width: 50% !important;
+      display: flex;
     }
 
 </style>
