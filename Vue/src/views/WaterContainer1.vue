@@ -1,9 +1,9 @@
 <template>
     <div class="web-content">
-      <h1 class="pageTitle">FIRST APPLICATION</h1>
+      <h1 class="pageTitle">NAPEŁNIANIE ZBIORNIKA</h1>
       <section>
-        <VariablesSettingBox />
-        <CustomeChart title="Superancki wykresik" type="spline" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu wody [m]"/>
+        <VariablesSettingBox @simulate="simulate"/>
+        <CustomeChart title="Superancki wykresik" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu wody [m]"/>
       </section>
     </div>
 </template>
@@ -20,15 +20,17 @@ export default {
   },
   data(){
     return {
-      volume: Array
+      volume: Array,
+      Tp: 1
     }
   },
-  // methods: {
-  //   login(){
-  //     console.log('losgin');
-  //     this.$router.push({name: "Login"})
-  //   }
-  // }
+  methods: {
+    simulate(parametersArray){
+      console.log(this.$options.name);
+      console.log(parametersArray);
+      this.$emit("simulateApp", this.$options.name, parametersArray);
+    }
+  }
 };
 </script>
 

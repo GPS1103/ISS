@@ -4,7 +4,7 @@
         <div v-for="item in items" :key="item.name">
             <Slider :name="item.name" :initialValue="item.initialValue" :min="item.min" :max="item.max" :data="item.data" :interval="item.interval"/>
         </div>
-        <button class="button" @click="simulate()">
+        <button class="button" @click="sendToSimulation">
             Symuluj
             <b-icon-gear></b-icon-gear>
         </button>
@@ -23,31 +23,18 @@ export default {
     props: {
         items: {
             type: Array,
-            default: function() { return SETTINGS_FIELDS }
+            default: function() { return SETTINGS_FIELDS[this.$parent.$options.name] }
         }
     },
-    data(){
-        return {
-            Tp: 1
-        }
-    },
+    // data(){
+    //     return {
+    //     }
+    // },
     methods: {
-        simulate(){
-            const child = this.$children;
-            if(child[3].$data.value > child[4].$data.value){
-                alert("Aktualna wysokość poziomu wody nie może być wyższa od maksymalnej wysokości zbiornika");
-            }
-            else {
-                this.Tp = child[5].$data.value;
-                this.$parent.$parent.simulate(this.$parent.$options.name,
-                    child[0].$data.value, 
-                    child[1].$data.value, 
-                    child[2].$data.value, 
-                    child[3].$data.value, 
-                    child[4].$data.value, 
-                    child[5].$data.value, 
-                    child[6].$data.value);
-            }
+        sendToSimulation(){
+            this.$parent.Tp = this.$children[this.$children.length -2].$data.value;
+            const parametersArray = this.$children.reduce((arr,cur) => { arr.push(cur.$data.value); return arr; }, []);
+            this.$emit('simulate', parametersArray);      
         }
     },
 }

@@ -30,7 +30,9 @@ export default {
             { tab: 'Apka 1', disabled: false, page: 'WaterContainer1'},
             { tab: 'Apka 2', disabled: true, page: 'WaterContainer2' },
             { tab: 'Apka 3', disabled: true, page: 'WaterContainer3'},
-            { tab: 'Apka 4', disabled: true, page: 'WaterContainer4'}
+            { tab: 'Apka 3_1', disabled: true, page: 'WaterContainer3_1'},
+            { tab: 'Apka 4', disabled: true, page: 'WaterContainer4'},
+            { tab: 'Apka 5', disabled: true, page: 'WaterContainer5'}
         ]
     }),
     methods: {

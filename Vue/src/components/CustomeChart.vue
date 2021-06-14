@@ -4,7 +4,7 @@
       <!-- <button class="button" @click="changeUi()">Wysokość</button>
       <button class="button" @click="fillData(2)">Objętość</button> -->
     </div>
-    <div id="chart-container"></div>
+    <div class="chart-container" :id="this.id"></div>
   </div>
 </template>
 
@@ -25,6 +25,7 @@ export default {
       String,
       default: 'spline'
     },
+    id: String,
     axisX: String, 
     axisY: String 
   },
@@ -45,7 +46,8 @@ export default {
         data: [
           {
             type: this.type,
-            dataPoints: this.calcDataPoints()
+            dataPoints: this.calcDataPoints(),
+            name: this.name,
           }					
         ]
       }
@@ -54,9 +56,9 @@ export default {
   watch: {
     data: async function(){
       console.log('changed');
-      const result = this.$parent.$children.find(child => { return child.$options.name === "VariablesSettingBox" });
-      console.log(result.$data.Tp);
-      this.chart.options.data[0].dataPoints = this.calcDataPoints(result.$data.Tp);
+      const Tp = this.$parent.$data.Tp;//this.$parent.$children.find(child => { return child.$options.name === "VariablesSettingBox" });
+      console.log(Tp);
+      this.chart.options.data[0].dataPoints = this.calcDataPoints(Tp);
       await this.chart.render();
       this.$root.$children[0].$data.freezeButtons = false;
       console.log('rendered');
@@ -75,7 +77,7 @@ export default {
     }
   },
   mounted: function () { 
-    this.chart = new CanvasJS.Chart('chart-container', this.chartOptions);
+    this.chart = new CanvasJS.Chart(this.id, this.chartOptions);
     this.chart.render();
   }
 }
@@ -108,7 +110,7 @@ export default {
     }
   }
   
-  #chart-container {
+  .chart-container {
     width: 100%;
     height: 400px;
     margin: none

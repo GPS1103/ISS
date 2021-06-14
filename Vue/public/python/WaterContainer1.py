@@ -52,7 +52,6 @@ def runWaterContainer1(A, Beta, Qd, H, hMax, Tp, SimulationLength):
     print(iterations)
     tic = time.time()
     for n in range(iterations + 1):
-        #print("Value: ", n)  #yay, works, 36k iterations
         #skip step n = 0
         if (n == 0):
             continue
@@ -64,11 +63,10 @@ def runWaterContainer1(A, Beta, Qd, H, hMax, Tp, SimulationLength):
         h.append(hNext)
         # if(round(hNext,2) > round(h[n-1],2)):
         #     print(round(hNext,2))
-        if(n == iterations):
+        if n == iterations:
             toc = time.time()
             print("Run script: ", toc - tic)
             print('finisz')    
             return h
 
 print('WaterContainer1.py loaded!')
-

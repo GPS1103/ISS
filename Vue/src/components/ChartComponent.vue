@@ -1,5 +1,5 @@
 <template>
-  <div id="chart-container"></div>
+  <div :id="this.id"></div>
 </template>
 
 <script>
@@ -8,6 +8,9 @@ CanvasJS = CanvasJS.Chart ? CanvasJS : window.CanvasJS;
 
 export default {
   name: 'ChartComponent',
+  props: {
+    id: String
+  },
   data() {
     return {
       chart: null,
@@ -36,7 +39,7 @@ export default {
     }
   },
   mounted: function () { 
-    this.chart = new CanvasJS.Chart('chart-container', this.chartOptions);
+    this.chart = new CanvasJS.Chart(this.id, this.chartOptions);
     this.chart.render();
   }
 }

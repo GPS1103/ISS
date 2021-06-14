@@ -5,7 +5,7 @@
         Zostałeś wylogowany.
     </div>
     <Modal v-if="isModalShow" @close="closeModal" />
-    <router-view />
+    <router-view @simulateApp="simulate"/>
     <AppFooter />
   </div>
 </template>
@@ -80,23 +80,77 @@ export default {
       this.$loadScript('https://cdn.jsdelivr.net/pyodide/v0.17.0a2/full/pyodide.js')
       .then(()=> {
         asyncLoop().then(()=> {
+
           fetch('/python/WaterContainer1.py')
             .then(res => res.text())
+            .then((text) => pyodide.runPython(text));
+        
+          fetch('/python/WaterContainer2.py')
+                .then(res => res.text())
+                .then((text) => pyodide.runPython(text));
+          fetch('/python/WaterContainer4.py')
+                .then(res => res.text())
+                .then((text) => pyodide.runPython(text));
+
+          fetch('/python/WaterContainer5.py')
+            .then(res => res.text())
+            .then((text) => pyodide.runPython(text));
+
+          fetch('/python/PIDController.py')
+            .then(res => res.text())
             .then((text) => pyodide.runPython(text))
-            this.freezeButtons = false;
+            .then(()=>{
+              pyodide.loadPackage("pandas")
+            .then((res) => {
+              fetch('/python/WaterContainer3.py')
+                .then(res => res.text())
+                .then((text) => pyodide.runPython(text))
+                .then(() => { this.freezeButtons = false });
+              })
+            });
         });
       })
       .catch(()=>{ alert('Błąd podczas ładowania pliku. Wczytaj stronę ponownie')});
     },
-    simulate(component, A, Beta, Qd, H, hMax, Tp, SimulationLength){
+    simulate(component, params){
       // run method from python script
       this.freezeButtons = true;
-      console.log(A, Beta, Qd, H, hMax, Tp, SimulationLength);
-      pyodide.runPythonAsync(`run${component}(${A}, ${Beta}, ${Qd}, ${H}, ${hMax}, ${Tp}, ${SimulationLength})`)
+      let invoke = `run${component}(`;
+      params.forEach((cur) => {
+        invoke += `${cur},`;
+      })
+      invoke = invoke.slice(0, -1) + ')';
+      console.log(invoke);
+
+      pyodide.runPythonAsync(invoke)
         .then((res)=>{ 
           const result = this.$children.find(child => { return child.$options.name === component });
-          if(component === "WaterContainer1") result.$data.volume = res.toJs();
+          const calcVal = res.toJs();
+          if(component === "WaterContainer1"){ 
+            result.$data.volume = calcVal;
+          }
+          else if(component === "WaterContainer2"){ 
+            result.$data.volume = calcVal[0];
+            result.$data.concentration = calcVal[1];
+          }
+          else if(component === "WaterContainer3"){ 
+            result.$data.volume = calcVal;
+          }
+          else if(component === "WaterContainer3_1"){ 
+            result.$data.volume = calcVal;
+          }
+          else if(component === "WaterContainer4"){ 
+            result.$data.volume = calcVal[0];
+            result.$data.concentration = calcVal[1];
+          }
+          else if(component === "WaterContainer5"){ 
+            result.$data.volume = calcVal;
+          }
+          //console.log(calcVal);
+          this.freezeButtons = false;
         })
+
+      // } 
     },
     preventButtonFuction(){
       document.addEventListener("click", e => {

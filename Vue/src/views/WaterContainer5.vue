@@ -1,10 +1,9 @@
 <template>
     <div class="web-content">
-      <h1 class="pageTitle">MIESZALNIK?</h1>
+      <h1 class="pageTitle">naplyw?</h1>
       <section>
         <VariablesSettingBox @simulate="simulate"/>
         <CustomeChart title="Superancki wykresik" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
-        <CustomeChart title="Superancki wykresik" type="spline" id="container-concentration" :data="concentration" axisX="Czas symulacji [h]" axisY="Stężenie substancji [%]"/>
       </section>
     </div>
 </template>
@@ -15,7 +14,7 @@ import VariablesSettingBox from '../components/VariablesSettingBox'
 import CustomeChart from '../components/CustomeChart'
 
 export default {
-  name: 'WaterContainer2',
+  name: 'WaterContainer5',
   components: {
     VariablesSettingBox,
     CustomeChart
@@ -33,9 +32,14 @@ export default {
   },  
   methods: {
     simulate(parametersArray){
-      console.log(this.$options.name);
-      console.log(parametersArray);
-      this.$emit("simulateApp", this.$options.name, parametersArray);
+        if(parametersArray[3] <= parametersArray[4] && parametersArray[5] <= parametersArray[4]){
+            console.log(this.$options.name);
+            console.log(parametersArray);
+            this.$emit("simulateApp", this.$options.name, parametersArray);
+        }
+        else {
+            alert("Aktualna lub zadana wysokość zbiornika nie może być większa od maksymalnej wysokości zbiornika");
+        }
     }
   }
 
