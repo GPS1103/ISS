@@ -204,16 +204,17 @@ export default {
 
 .element {
   background-color: $secondary-color;
+  display: flow-root;
 }
 
 .web-content {
   display: block;
-  height: 100%;
+  // height: 100%;
   overflow: auto;
 
-  @media (max-width: $break-desktop) {
-    padding-bottom: 100px;
-  }
+  // @media (max-width: $break-desktop) {
+  //   padding-bottom: 100px;
+  // }
 }
 
 .title {
@@ -237,15 +238,22 @@ export default {
   letter-spacing: 2px;
   transition: all 150ms linear;
 
-&:hover {
-  background: darken($buttons-color, 20%);
-  border: 1px solid rgba(#000, .05);
-  box-shadow: 1px 1px 2px rgba(grey, .2);
-  color: lighten($buttons-color, 18%);
-  text-decoration: none;
-  text-shadow: -1px -1px 0 darken($buttons-color, 9.5%);
-  transition: all 250ms linear;
-}
+  @media (max-width: $break-mobile) {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin: 7px 5px;
+    letter-spacing: 1px;
+  }
+
+  &:hover {
+    background: darken($buttons-color, 20%);
+    border: 1px solid rgba(#000, .05);
+    box-shadow: 1px 1px 2px rgba(grey, .2);
+    color: lighten($buttons-color, 18%);
+    text-decoration: none;
+    text-shadow: -1px -1px 0 darken($buttons-color, 9.5%);
+    transition: all 250ms linear;
+  }
 }
 
 .pageTitle {
@@ -285,4 +293,14 @@ export default {
         margin: 10px;
     }
 }
+
+  .doubleCharts {
+    @media (min-width: $break-desktop) {
+      position: absolute;
+      right: 3%;
+      width: 50%;
+      height: 70%;
+      overflow: auto;
+    }
+  }
 </style>

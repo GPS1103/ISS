@@ -3,7 +3,9 @@
       <h1 class="pageTitle">naplyw?</h1>
       <section>
         <VariablesSettingBox @simulate="simulate"/>
+        <div class='singleChart'>
         <CustomeChart title="Superancki wykresik" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
+        </div>
       </section>
     </div>
 </template>

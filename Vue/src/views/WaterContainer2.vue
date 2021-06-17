@@ -3,8 +3,10 @@
       <h1 class="pageTitle">MIESZALNIK?</h1>
       <section>
         <VariablesSettingBox @simulate="simulate"/>
+        <div class='doubleCharts'>
         <CustomeChart title="Superancki wykresik" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
         <CustomeChart title="Superancki wykresik" type="spline" id="container-concentration" :data="concentration" axisX="Czas symulacji [h]" axisY="Stężenie substancji [%]"/>
+        </div>
       </section>
     </div>
 </template>

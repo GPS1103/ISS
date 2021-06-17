@@ -5,14 +5,15 @@
         </div>
         <!--<h6 v-if="user">Witaj, {{user}}</h6>
         <h6 v-if="!user">Nie jesteś zalogowany!</h6>-->
-        <button class="info" @click="$emit('showModal')">
-            Pomoc
-        </button>
         <button v-if="this.$route.name != 'Login' && !user" class="button" @click="login()">
             Zaloguj się
             <b-icon-power></b-icon-power>
         </button>
         <button v-if="this.$route.name != 'Login' && user" class="button" @click="logout()">Wyloguj się</button>
+        <button class="infoIcon" @click="$emit('showModal')"><b-icon-info-circle></b-icon-info-circle></button>
+        <button class="infoString" @click="$emit('showModal')">
+            Pomoc
+        </button>
     </header>
 </template>
 
@@ -81,16 +82,32 @@ export default {
         font-size: 10px !important;
     }
 
-    .info {
-        padding: 10px 20px;
+    .infoString,
+    .infoIcon {
         letter-spacing: 2px;
         color: #babbc9 !important;
         margin: 10px;
-        position: absolute;
-        right: 160px;
+        float: right;
+    }
 
-        @media (min-width: $break-desktop) {
-            right: 220px;
+    .infoString {
+        padding: 10px;
+
+        @media (max-width: $break-mobile) {
+            display: none;
+        }
+    }
+
+    .infoIcon {
+        padding: 7px;
+
+        svg {
+            height: 25px;
+            width: 25px;
+        }
+
+        @media (min-width: $break-mobile) {
+            display: none;
         }
     }
 

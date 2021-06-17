@@ -27,12 +27,12 @@ export default {
     data: ()=>({
         active_tab: 0,
         items: [
-            { tab: 'Apka 1', disabled: false, page: 'WaterContainer1'},
-            { tab: 'Apka 2', disabled: true, page: 'WaterContainer2' },
-            { tab: 'Apka 3', disabled: true, page: 'WaterContainer3'},
-            { tab: 'Apka 3_1', disabled: true, page: 'WaterContainer3_1'},
-            { tab: 'Apka 4', disabled: true, page: 'WaterContainer4'},
-            { tab: 'Apka 5', disabled: true, page: 'WaterContainer5'}
+            { tab: 'Aplikacja nazwa 1', disabled: false, page: 'WaterContainer1'},
+            { tab: 'Aplikacja nazwa  2', disabled: true, page: 'WaterContainer2' },
+            { tab: 'Aplikacja nazwa  3', disabled: true, page: 'WaterContainer3'},
+            { tab: 'Aplikacja nazwa  3_1', disabled: true, page: 'WaterContainer3_1'},
+            { tab: 'Aplikacja nazwa  4', disabled: true, page: 'WaterContainer4'},
+            { tab: 'Aplikacja nazwa  5', disabled: true, page: 'WaterContainer5'}
         ]
     }),
     methods: {
@@ -80,8 +80,13 @@ footer {
     display: inline-block;
     flex-wrap: nowrap;
 
-    @media (min-width: $break-desktop) {
-      width: 80%;
-    }
+    // @media (min-width: $break-desktop) {
+    //   width: 80%;
+    // }
+}
+
+.v-slide-group__prev 
+.v-slide-group__prev--disabled {
+    display: none !important;
 }
 </style>

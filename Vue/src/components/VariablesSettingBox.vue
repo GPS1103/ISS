@@ -44,11 +44,12 @@ export default {
 @import "@/scss/variables.scss";
 
     .container {
-        width: 70%;
-        margin: 3% auto;
+        width: 90%;
+        max-height: 60%;
+        margin: 10% auto;
         position: relative;
         background-color: $primary-color;
-        border-radius: 3%;
+        border-radius: 10px;
         box-shadow: 5px 7px 20px -7px rgba(0,0,0,0.69);
         padding-bottom: 70px;
 
@@ -56,6 +57,7 @@ export default {
             width: 40%;
             margin: 3% 5%;
             position: absolute;
+            overflow: auto;
             left: 0;
             padding-bottom: 10px;
         }
@@ -76,5 +78,26 @@ export default {
         // color: black;
         margin-left: 25%;
         width: 50%;
+    }
+    /* width */
+    ::-webkit-scrollbar {
+    width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 20px;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: rgba($secondary-color, 0.8);
+    border-radius: 20px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
     }
 </style>

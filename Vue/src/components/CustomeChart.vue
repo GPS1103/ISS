@@ -89,30 +89,44 @@ export default {
   .small {
       max-width: 500px;
       margin: 5% auto;
-      right: 40%;
+
+      .singleChart & {
+        right: 40%;
+      }
 
     @media (max-width: $break-mobile) {
       max-width: 350px;
-      right: 400px;
+      // right: 400px;
+
+      .singleChart &{
+        right: 400px;
+      }
     }
 
     @media (min-width: $break-desktop) {
       max-width: 500px;
-      position: absolute;
       margin: 5% 5%;
+
+      .singleChart & {
+        position: absolute;
+      }
     }
 
     @media (min-width: $break-big-desktop) {
       max-width: 700px;
-      position: absolute;
+      // position: absolute;
       margin: 5% 15%;
-      right: 30%;
+      // right: 30%;
+
+      .singleChart & {
+        right: 30%;
+      }
     }
   }
   
   .chart-container {
     width: 100%;
     height: 400px;
-    margin: none
+    margin: none;
   }
 </style>
