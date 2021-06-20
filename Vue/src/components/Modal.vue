@@ -12,19 +12,89 @@
 
               <div class="modal-body">
                 <slot name="body">
-                    <p>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</p>
+                    <p>Aplikacja 1: Napełnianie zbiornika - niesterowane</p>
                     <p>
-                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+                        Symuluje napełnianie zbiornika z jednego wlewu o stałym przepływie i wypływie zależnym od parametrów beta i od wysokości początkowej słupa wody. Im wyższy słup wody, tym więcej jej wypływa, lecz jeśli poziom wody osiągnie wartość większą niż maksymalna zdefiniowana lub zbiornik zostanie opróżniony, to symulacja zostanie przerwana. 
+                        <!--<ul>
+                        <li>A - powierzchnia podstawy zbiornika (w m^2)</li>
+                        <li>Beta - współczynnik wypływu cieczy (im mniejszy tym wolniejszy wypływ; w m^(5/2)/s)</li>
+                        <li>Qd - wpływ wody (w m^3/s)</li>
+                        <li>H - początkowa wysokość zbiornika wody (w m)</li>
+                        <li>hMax - maksymalna wysokość zbiornika wody (w m)</li>
+                        <li>Tp - krok czasowy (w s)</li>
+                        <li>simLength - długość symulacji (w h)</li>
+                        </ul>-->
                     </p>
                     <br/>
-                    <p>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</p>
+                    <p>Aplikacja 2: Symulacja mieszania - niesterowane</p>
                     <p>
-                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+                        Symuluje napełnianie zbiornika z dwóch źródeł o różnych stężeniach jakiejś substancji w nich zawartych. Wypływ cieczy jest stały i niezmienny w czasie. Jeśli przekroczona zostanie pojemność maksymalna lub opróżnimy zbiornik do zera, symulacja zostanie przerwana.
+                        <!--<ul>
+                        <li>V - pojemność początkowa (w m^3)</li>
+                        <li>c - stężenie początkowe (w zakresie &#60;0, 1>, gdzie 0 to 0% stężenia, a 1 to 100% stężenia.</li>
+                        <li>Qd1 - wpływ cieczy ze źródła pierwszego (w m^3/s)</li>
+                        <li>Qd2 - wpływ cieczy ze źródła drugiego (w m^3/s)</li>
+                        <li>Qo - wypływ cieczy ze zbiornika (w m^3/s)</li>
+                        <li>cd1 - stężenie substancji we wpływie pierwszym (w zakresie &#60;0,1>)</li>
+                        <li>cd2 - stężenie substancji we wpływie drugim (w zakresie &#60;0,1>)</li>
+                        <li>Tp - krok czasowy symulacji (w s)</li>
+                        <li>simLength - długość symulacji (w h)</li>
+                        <li>vMax - maksymalna objętość zbiornika (w m^3)</li>
+                        </ul>-->
                     </p>
                     <br/>
-                    <p>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</p>
+                    <p>Aplikacja 3: Symulacja napełniania ze sterowaniem - sterowane regulatorem PID</p>
                     <p>
-                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+                        Symuluje napełnianie zbiornika z jednego wlewu sterowanym regulatorem PID i wypływie zależnym od parametrów beta i od wysokości początkowej słupa wody. Im wyższy słup wody, tym więcej jej wypływa, lecz jeśli poziom wody osiągnie wartość większą niż maksymalna zdefiniowana lub zbiornik zostanie opróżniony, to symulacja zostanie przerwana. 
+                        <!--<ul>
+                        <li>A - powierzchnia podstawy zbiornika (w m^2)</li>
+                        <li>Beta - współczynnik wypływu cieczy (im mniejszy tym wolniejszy wypływ; w m^(5/2)/s)</li>
+                        <li>Qd - wpływ wody (w m^3/s)</li>
+                        <li>H - początkowa wysokość zbiornika wody (w m)</li>
+                        <li>hMax - maksymalna wysokość zbiornika wody (w m)</li>
+                        <li>Tp - krok czasowy (w s)</li>
+                        <li>simLength - długość symulacji (w h)</li>
+                        <li>target_level - docelowy poziom wody do którego dąży regulator (w m)</li>
+                        <li>maxInput - maksymalna wartość wpływu wody (w m^3/s)</li>
+                        <li>P1 - współczynnik proporcjonalny regulatora PID, wartość 0 oznacza wyłączenie regulatora całkowicie).</li>
+                        <li>I1 - czas zdwojenia części całkującej. Im większa, tym część całkująca wolniej reaguje.</li>
+                        <li>D1 - czas wyprzedzenia części różniczkującej. Im większa tym reglator wolniej (słabiej) reaguje na zmiany.</li>
+                        <li>version - używane, gdy chcemy aby algorytm uczony maszynowo sam dobrał parametry regulatora PID. Wartość 0 oznacza algorytm regresji liniowej, wartość 1 oznacza uczony algorytm genetryczny.</li>
+                        </ul>
+                    </p>
+                    <br/>
+                    <p>Aplikacja 3.1: Symulacja napełniania ze sterowaniem (AI)</p>
+                    <p>-->
+                        
+                    </p>
+                    <br/>
+                    <p>Aplikacja 4: Symulacja mieszania - sterowane regulatorami PID</p>
+                    <p>
+                        Symuluje napełnianie zbiornika z dwóch źródeł o różnych stężeniach jakiejś substancji w nich zawartych. Posiada 3 regulatory PID: dwa ustawione kaskadowo do regulowania wpływu cieczy pierwszej, a trzeci na wypływie aby regulować poziom wody w zbiorniku. Jeśli przekroczona zostanie pojemność maksymalna lub opróżnimy zbiornik do zera, symulacja zostanie przerwana.
+                        <!--<ul>
+                        <li>V - pojemność początkowa (w m^3)</li>
+                        <li>c - stężenie początkowe (w zakresie &#60;0, 1>, gdzie 0 to 0% stężenia, a 1 to 100% stężenia.</li>
+                        <li>Qd1 - wpływ cieczy ze źródła pierwszego (w m^3/s)</li>
+                        <li>Qd2 - wpływ cieczy ze źródła drugiego (w m^3/s)</li>
+                        <li>Qo - wypływ cieczy ze zbiornika (w m^3/s)</li>
+                        <li>cd1 - stężenie substancji we wpływie pierwszym (w zakresie &#60;0,1>)</li>
+                        <li>cd2 - stężenie substancji we wpływie drugim (w zakresie &#60;0,1>)</li>
+                        <li>Tp - krok czasowy symulacji (w s)</li>
+                        <li>simLength - długość symulacji (w h)</li>
+                        <li>P1 - współczynnik proporcjonalny regulatorów PID, wartość 0 oznacza wyłączenie regulatora całkowicie). (Regulatory połączone kaskadowo mają te same parametry)</li>
+                        <li>I1 - czas zdwojenia części całkujących. Im większa, tym część całkująca wolniej reaguje. (Regulatory połączone kaskadowo mają te same parametry)</li>
+                        <li>D1 - czas wyprzedzenia części różniczkujących. Im większa tym reglator wolniej (słabiej) reaguje na zmiany. (Regulatory połączone kaskadowo mają te same parametry)</li>
+                        <li>maxInput - maksymalny wpływ cieczy z wejścia pierwszego (w m^3/s)</li>
+                        <li>vMax - maksymalna objętość zbiornika (w m^3)</li>
+                        <li>P2 - współczynnik proporcjonalny regulatora PID, wartość 0 oznacza wyłączenie regulatora całkowicie).</li>
+                        <li>I2 - czas zdwojenia części całkujących. Im większa, tym część całkująca wolniej reaguje.</li>
+                        <li>D2 - czas wyprzedzenia części różniczkujących. Im większa tym reglator wolniej (słabiej) reaguje na zmiany.</li>
+                        </ul>-->
+                    </p>
+                    <br/>
+                    <p>Aplikacja 5: Symulacja napełniania - regulator rozmyty</p>
+                    <p>
+                        Aplikacja służy do zasymulowania działania napełniania zbiornika ze sterowanym dopływem i grawitacyjnym odpływem. Za utrzymanie ustalonego poziomu odpowiada regulator rozmyty
                     </p>
                 </slot>
               </div>
@@ -105,4 +175,7 @@ export default {
   float: right;
 }
 
+ul {
+  padding: 0 30px;
+}
 </style>

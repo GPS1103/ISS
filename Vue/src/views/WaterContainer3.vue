@@ -1,10 +1,10 @@
 <template>
     <div class="web-content">
-      <h1 class="pageTitle">naplyw?</h1>
+      <h1 class="pageTitle">SYMULACJA NAPEŁNIANIA ZE STEROWANIEM</h1>
       <section>
         <VariablesSettingBox @simulate="simulate"/>
         <div class='singleChart'>
-        <CustomeChart title="Superancki wykresik" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
+        <CustomeChart title="Wykres poziomu cieczy od czasu" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
         </div>
       </section>
     </div>

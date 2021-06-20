@@ -27,12 +27,12 @@ export default {
     data: ()=>({
         active_tab: 0,
         items: [
-            { tab: 'Aplikacja nazwa 1', disabled: false, page: 'WaterContainer1'},
-            { tab: 'Aplikacja nazwa  2', disabled: true, page: 'WaterContainer2' },
-            { tab: 'Aplikacja nazwa  3', disabled: true, page: 'WaterContainer3'},
-            { tab: 'Aplikacja nazwa  3_1', disabled: true, page: 'WaterContainer3_1'},
-            { tab: 'Aplikacja nazwa  4', disabled: true, page: 'WaterContainer4'},
-            { tab: 'Aplikacja nazwa  5', disabled: true, page: 'WaterContainer5'}
+            { tab: 'Napełnianie zbiornika - niesterowane', disabled: false, page: 'WaterContainer1'},
+            { tab: 'Symulacja mieszania - niesterowane', disabled: true, page: 'WaterContainer2' },
+            { tab: 'Symulacja napełniania - PID', disabled: true, page: 'WaterContainer3'},
+            { tab: 'Symulacja napełniania - PID z AI', disabled: true, page: 'WaterContainer3_1'},
+            { tab: 'Symulacja mieszania - PID', disabled: true, page: 'WaterContainer4'},
+            { tab: 'Symulacja napełniania - regulator rozmyty', disabled: true, page: 'WaterContainer5'}
         ]
     }),
     methods: {
