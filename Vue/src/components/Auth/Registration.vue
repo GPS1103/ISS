@@ -2,17 +2,18 @@
     <section class="container-fluid">
         <div class="container">
                 <div class="login-panel">
-                    <div class="alert alert-primary" role="alert" :style="{opacity: isAlertShow ? 1 : 0}">
-                        Login successfully. <small>waiting for redirect.</small>
+                    <div class="alert alert-primary" role="alert" :style="{opacity: isAlertShow ? 1 : 0, 'background-color': isError ? '#b00808 !important' : '#007BFF'}">
+                        <span :style="{display: isLoggingIn ? 'block' : 'none'}">Jesteś zarejestrowany! <br><small>Nastąpi przekierowanie do strony logowania</small></span>                        
+                        <span :style="{display: isError ? 'block' : 'none'}">Błąd podczas rejestracji! <br><small>{{ errorMessage }}</small></span>                        
                     </div>
-                    <h1 class="display-4 font-weight-bold">Sign up and join us!</h1>
-                    <p class="font-weight-bold">With an account you have access to many possibilities!</p>
+                    <h1 class="display-5 font-weight-bold">Zarejestruj konto i korzystaj w pełni!</h1>
+                    <p class="font-weight-bold">Konto umożliwia dostęp do pozostałych aplikacji!</p>
                     <br>
                     <form  action="">
                         <div class="form-group">
-                            <label class="input-label">Login</label>
-                            <input type="login" @click="clickInput()" class="form-control" placeholder="Login" v-model="login">
-                            <span class="register-info">{{ error.login }}</span>
+                            <label class="input-label">Nazwa</label>
+                            <input type="login" @click="clickInput()" class="form-control" placeholder="Nazwa użytkownika" v-model="name">
+                            <span class="register-info">{{ error.name }}</span>
                         </div>
                         <div class="form-group">
                             <label class="input-label">Email</label>
@@ -20,18 +21,18 @@
                             <span class="register-info">{{ error.email }}</span>
                         </div>
                         <div class="form-group">
-                            <label class="input-label">Password</label>
-                            <input type="password" @click="clickInput()" class="form-control" placeholder="Password" v-model="password">
+                            <label class="input-label">Hasło</label>
+                            <input type="password" @click="clickInput()" class="form-control" placeholder="Hasło" v-model="password">
                             <span class="register-info">{{ error.password }}</span>
                         </div>
                         <div class="form-group">
-                            <label class="input-label">Password one more time</label>
-                            <input type="password" @click="clickInput()" class="form-control" placeholder="Password2" v-model="password2">
+                            <label class="input-label">Powtórz hasło</label>
+                            <input type="password" @click="clickInput()" class="form-control" placeholder="Powtórz hasło" v-model="password2">
                             <span class="register-info">{{ error.password2 }}</span>
                         </div>
                         <br>
                         <div class="form-group d-flex justify-content-center">
-                            <button class="button" id="register" @click.prevent="register" v-if="!isLoggingIn">Sign Up</button>
+                            <button class="button" id="register" @click.prevent="register" v-if="!isLoggingIn">Zarejestruj</button>
                         </div>
                     </form>
                 </div>
@@ -45,18 +46,20 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            login: "",
+            name: "",
             email: "",
             password: "",
             password2: "",
             isLoggingIn: false,
+            isError: false,
             isAlertShow: false,
             error: {
-                login: null,
+                name: null,
                 email: null,
                 password: null,
                 password2: null
-            }
+            },
+            errorMessage: null
         }
     },
     mounted(){
@@ -65,30 +68,39 @@ export default {
     },
     methods: {
         register() {
+            this.isError = false;
+            this.isLoggingIn = false;
+            this.errorMessage = null;
+            this.isAlertShow = false;
             if(!this.validate()) return;
-            else {
-                //for test
-                this.isAlertShow = true
-                setTimeout(() => this.redirect('Login'), 2000);
-            }
-            this.isLoggingIn = true
-            axios.post('register', { login: this.login, email: this.email, password: this.password})
+            
+            axios.post('https://iss-server-app.herokuapp.com/api/register', { 
+                name: this.name, email: this.email, password: this.password, password_confirmation: this.password2 })
                 .then(
                     ()=> {
-                        this.isLoggingIn = false
-                        this.isAlertShow = true
+                        //console.log(res);
+                        this.isLoggingIn = true;
+                        this.isAlertShow = true;
                         setTimeout(() => this.redirect('Login'), 2000);
                     }
                 )
-                .catch( err => alert(err.message))
+                .catch( (err) => {
+                    if(err.response.status == 422){
+                        this.errorMessage = err.response.data.errors.email[0];
+                    }
+                    this.isAlertShow = true
+                    this.isError = true;
+                    //console.log(err.response);
+
+                    })
         },
         redirect(pageName) {
             this.$router.push({name: pageName})
         },
         validate(){
-            console.log(this.login);
-            if(this.login.length <= 6){
-                this.error.login = "Login musi mieć więcej niż 6 znaków";
+            console.log(this.name);
+            if(this.name.length <= 2){
+                this.error.name = "Nazwa musi mieć więcej niż 2 znaki";
                 return false;
             }
             if(!this.validateEmail(this.email)){
@@ -115,9 +127,9 @@ export default {
         },
         clickInput(){
             this.isFailAlertShow = false;
-            this.required_login = false;
+            this.required_name = false;
             this.required_password = false;
-            this.error.login = "";
+            this.error.name = "";
             this.error.email = "";
             this.error.password = "";
             this.error.password2 = "";
@@ -146,13 +158,14 @@ section {
 }
 .login-panel {
     position: relative;
-    padding: 200px 0;
+    padding: 100px 0;
     .alert {
         opacity: 0;
         position: absolute;
         width: 100%;
-        top: 100px;
+        top: 10px;
         transition: all .5s;
+        right: 0%;
         &.alert-primary {
             background-color: #007BFF;
             color: #fff;

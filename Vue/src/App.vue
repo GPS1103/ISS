@@ -216,7 +216,6 @@ export default {
   //   padding-bottom: 100px;
   // }
 }
-
 .title {
   font-size: 24px;
   font-weight: 600;

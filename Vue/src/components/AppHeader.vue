@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
 export default {
     name: 'AppHeader',
     data(){
@@ -28,30 +28,35 @@ export default {
     },
     created(){
         this.checkUser();
-        console.log(this.$route.name);
+        //console.log(this.$route.name);
     },
     methods: {
         goBack(){
-            this.$router.push({name: "WaterContainer1"})
+            
+            if(this.$route.name != "WaterContainer1") {
+                this.$parent.$children.find( child => { return child.$options.name == 'AppFooter'}).$data.active_tab = 0;
+                this.$router.push({name: "WaterContainer1"})
+            }
         },
         login(){
-            console.log('losgin');
             this.$router.push({name: "Login"})
         },
         checkUser(){
-            axios.get('user')
-                .then( res =>{ 
-                    console.log(res);
-                    this.user = res.user;
-                })
-                .catch( err => {
-                    console.log(err);
-                    //for test
-                    // this.user = 'test';
-                    // const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})
-                    // appFooter.$data.items.forEach( item => item.disabled = false);
-                    
-                })
+            // if(this.user){
+            //     this.user = res.user;
+            // }
+            
+            // it could be done better, but is what it is
+            
+            // axios.get('user')
+            //     .then( res =>{ 
+            //         console.log(res);
+            //         this.user = res.user;
+            //     })
+            //     .catch( err => {
+            //         console.log(err);
+            //     })
+
         },
         logout(){
             localStorage.removeItem('token');
@@ -130,5 +135,9 @@ export default {
     .logo {
         float: left;
         height: 50px;
+    }
+
+    .logo:hover{
+        cursor: pointer;
     }
 </style>

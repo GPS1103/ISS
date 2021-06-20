@@ -2,29 +2,29 @@
     <section class="container-fluid">
         <div class="container">
                 <div class="login-panel">
-                    <div class="alert alert-primary" role="alert" :style="{opacity: isSuccessAlertShow ? 1 : 0}">
-                        Login successfully. <small>waiting for redirect.</small>
+                    <div class="alert alert-primary" role="alert" :style="{display: isSuccessAlertShow ? 'block' : 'none'}">
+                        Jesteś zalogowany!<br><small>Oczekiwanie na przekierowanie</small>
                     </div>
-                    <div class="alert alert-error" role="alert" :style="{opacity: isFailAlertShow ? 1 : 0}">
-                        Login error
+                    <div class="alert alert-error" role="alert" :style="{display: isFailAlertShow ? 'block' : 'none'}">
+                        Niewłaściwy adres email, bądź hasło
                     </div>
-                    <h1 class="display-3 font-weight-bold">Login</h1>
+                    <h1 class="display-4 font-weight-bold">Logowanie</h1>
                     <br>
                     <form action="">
                         <div class="form-group">
-                            <label class="input-label">Login</label>
-                            <input type="login" @click="clickInput()" class="form-control" placeholder="Login" v-model="login">
-                            <span class="login-validate" v-if="required_login">To pole jest wymagane</span>
+                            <label class="input-label">Email</label>
+                            <input type="email" @click="clickInput()" class="form-control" placeholder="Email" v-model="email">
+                            <span class="email-validate" v-if="required_email">{{ email_error}}</span>
                         </div>
                         <div class="form-group">
-                            <label class="input-label">Password</label>
-                            <input type="password" @click="clickInput()" class="form-control" placeholder="Password" v-model="password">
-                            <span class="login-validate" v-if="required_password">To pole jest wymagane</span>
+                            <label class="input-label">Hasło</label>
+                            <input type="password" @click="clickInput()" class="form-control" placeholder="Hasło" v-model="password">
+                            <span class="email-validate" v-if="required_password">To pole jest wymagane</span>
                         </div>
                         <br>
                         <div class="form-group d-flex justify-content-center">
-                            <button class="button" id="login" @click.prevent="logUser">Login</button>
-                            <button class="button" id="register" @click="redirect('Registration')">Sign Up</button>
+                            <button class="button" id="login" @click.prevent="logUser">Zaloguj</button>
+                            <button class="button" id="register" @click="redirect('Registration')">Zarejestruj</button>
                         </div>
                     </form>
                 </div>
@@ -39,13 +39,14 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            login: null,
+            email: null,
             password: null,
             isLoggingIn: false,
             isSuccessAlertShow: false,
             isFailAlertShow: false,
             required_password: false,
-            required_login: false
+            required_email: false,
+            email_error: "To pole jest wymagane"
         }
     },
     mounted(){
@@ -54,36 +55,50 @@ export default {
     },
     methods: {
         logUser() {
-            console.log(this.$store);
-            const loginRequired = this.isRequired("login");
+            const emailRequired = this.isRequired("email");
             const passwordRequired = this.isRequired("password");
-            if(this.login == "test" && this.password == "test"){
-                const appHeader = this.$parent.$children.find( child => { return child.$options.name == "AppHeader"});
-                appHeader.$data.user = "test"
-                this.isSuccessAlertShow = true;      
-                setTimeout(() => {
-                    const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})
-                    appFooter.$data.items.forEach( item => item.disabled = false);
-                    this.redirect('WaterContainer1')
-                }, 2000);
-            }
-            else if(!loginRequired && !passwordRequired){
-                this.required_login = false;
+            // if(this.login == "test" && this.password == "test"){
+            //     const appHeader = this.$parent.$children.find( child => { return child.$options.name == "AppHeader"});
+            //     appHeader.$data.user = "test"
+            //     this.isSuccessAlertShow = true;      
+            //     setTimeout(() => {
+            //         const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})
+            //         appFooter.$data.items.forEach( item => item.disabled = false);
+            //         this.redirect('WaterContainer1')
+            //     }, 2000);
+            // }
+            if(!emailRequired && !passwordRequired){
+                this.required_email = false;
                 this.required_password = false;
 
-                axios.post('loginUser',{
-                    login: this.login,
+                if(!this.validateEmail(this.email)){
+                    this.email_error = "Wprowadz poprawny adres email";
+                    this.required_email = true;
+                    return;
+                }
+                axios.post('https://iss-server-app.herokuapp.com/api/login',{
+                    email: this.email,
                     password: this.password
                 }). then(
                     res => {
                         this.isSuccessAlertShow = true;
-                        console.log(res);
-                        //localStorage.setItem('token') = res.token;
-                        setTimeout(() => this.redirect('WaterContainer1'), 2000);
-                        }
-                ).catch( err => {
+                        //console.log(res.data.token);
+                        document.getElementsByClassName('alert-primary')[1].style.opacity="1"
+                        //localStorage.setItem('token', res.data.token);
+                        const appHeader = this.$parent.$children.find( child => { return child.$options.name == "AppHeader"});
+                        appHeader.$data.user = res.data.data.name;
+                        console.log(appHeader.$data, appHeader.$data.user );
+                        const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})
+                        appFooter.$data.items.forEach( item => item.disabled = false);
+                        setTimeout(() => {
+                            this.$parent.$children.find( child => { return child.$options.name == 'AppFooter'}).$data.active_tab = 0;
+                            this.redirect('WaterContainer1')
+                        }, 2000);
+                    }
+                ).catch( (err) => {
                     this.isFailAlertShow = true;
-                    console.log(err.message)}
+                    document.getElementsByClassName('alert-error')[0].style.opacity="1"
+                    console.log(err.response)}
                 );
             }
         },
@@ -98,10 +113,15 @@ export default {
             return false;
         },
         clickInput(){
+            this.error_message = "To pole jest wymagane";
             this.isFailAlertShow = false;
-            this.required_login = false;
+            this.required_email = false;
             this.required_password = false;
-        }
+        },
+        validateEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        },
     }
 }
 </script>
@@ -125,20 +145,21 @@ section {
     margin: 0;
     height: unset;
 }
-.login-validate {
+.email-validate {
     color: red;
 }
 .login-panel {
     position: relative;
-    padding: 150px 0;
+    padding: 100px 0;
 
     .alert {
-        opacity: 0;
         position: absolute;
         width: 100%;
-        top: 100px;
+        top: 10px;
         right: 0;
-        transition: all .5s;
+        opacity: 0;
+        transition: opacity 2s linear;
+        
         &.alert-primary {
             background-color: #007BFF;
             color: #fff;
@@ -146,7 +167,7 @@ section {
             border: none;
         }
         &.alert-error {
-            background-color: #ff0800bb;
+            background-color: #b00808;
             color: #fff;
             font-size: 18px;
             border: none;
@@ -160,10 +181,10 @@ section {
     }
 }
 button {
-  width: 35%;
+  width: 40%;
 
     @media (min-width: $break-desktop) {
-        width: 25%;
+        width: 40%;
     }
 }
 </style>

@@ -2,7 +2,7 @@ export const SETTINGS_FIELDS = {
   WaterContainer1: [
     { name: 'Powierzchnia zbiornika', initialValue: 1, units: 'm2', min: 0.5, max: 25, interval: 0.1 },           //A - powierzchnia zbiornika
     { name: 'Współczynnik przepływu', initialValue: 0.01, units: 'none', min: 0.01, max: 5, interval: 0.001 },         //Beta - współczynnik wypływu?
-    { name: 'Ciśnienie wpływu', initialValue: 0.01, units: 'm^3/s', min: 0, max: 5, interval: 0.01 },                  //Qd 
+    { name: 'Ciśnienie wpływu', initialValue: 0.01, units: 'm^3/s', min: 0.1, max: 5, interval: 0.01 },                  //Qd 
    // { name: 'Ciśnienie wypływu', initialValue: 0, units: 'm3' },               //Q0 - nieużywane 
     { name: 'Aktualny poziom cieczy', initialValue: 1, units: 'm', min: 0.1, max: 20, interval: 0.1 },        //h
     { name: 'Maksymalna wysokość zbiornika', initialValue: 5, units: 'm', min: 0.1, max: 20, interval: 0.1 },        //hMax
@@ -11,12 +11,12 @@ export const SETTINGS_FIELDS = {
   ],
   WaterContainer2: [
     { name: 'Objętość zbiornika', initialValue: 1, units: 'm2', min: 0.5, max: 10, interval: 0.1 },           //A - powierzchnia zbiornika
-    { name: 'Stężenie substancji', initialValue: 0.1, units: '%', min: 0, max: 1, interval: 0.01 },         //c
-    { name: 'Ciśnienie wpływu składnika 1', initialValue: 0.01, units: 'm^3/s', min: 0, max: 10, interval: 0.1 },                  //Q1 
-    { name: 'Ciśnienie wpływu składnika 2', initialValue: 0.01, units: 'm^3/s', min: 0, max: 10, interval: 0.1},        //Qd2
+    { name: 'Stężenie substancji', initialValue: 0.1, units: '%', min: 0.1, max: 1, interval: 0.01 },         //c
+    { name: 'Ciśnienie wpływu składnika 1', initialValue: 0.01, units: 'm^3/s', min: 0.01, max: 10, interval: 0.1 },                  //Q1 
+    { name: 'Ciśnienie wpływu składnika 2', initialValue: 0.01, units: 'm^3/s', min: 0.01, max: 10, interval: 0.1},        //Qd2
     { name: 'Cisnienie wypływu', initialValue: 0.01, units: 'm^3/s', min: 0.1, max: 20, interval: 0.1 },        //Qo
-    { name: 'Stężenie składnika 1', initialValue: 0.1, units: '%', min: 0, max: 1, interval: 0.01 },        //c1
-    { name: 'Stężenie składnika 2', initialValue: 0.1, units: '%', min: 0, max: 1, interval: 0.01 },    //c2
+    { name: 'Stężenie składnika 1', initialValue: 0.1, units: '%', min: 0.1, max: 1, interval: 0.01 },        //c1
+    { name: 'Stężenie składnika 2', initialValue: 0.1, units: '%', min: 0.1, max: 1, interval: 0.01 },    //c2
     { name: 'Próbkowanie', initialValue: 1, units: 'none', min: 0.1, max: 10, data: [0.01, 0.1, 1] },                  //Tp - próbkowanie
     { name: 'Czas symulacji', initialValue: 1, units: 'h', min: 0.25, max: 24, interval: 0.5 },                 //SimulationLength - czas symulacji w godzinach
   ],
@@ -54,12 +54,12 @@ export const SETTINGS_FIELDS = {
   ],
   WaterContainer4: [
     { name: 'Powierzchnia zbiornika', initialValue: 1, units: 'm2', min: 0.5, max: 10, interval: 0.1 },           //A - powierzchnia zbiornika
-    { name: 'Stężenie substancji', initialValue: 0.1, units: '%', min: 0, max: 1, interval: 0.01 },         //c
-    { name: 'Ciśnienie wpływu składnika 1', initialValue: 0.01, units: 'm^3/s', min: 0, max: 10, interval: 0.1 },                  //Q1 
-    { name: 'Ciśnienie wpływu składnika 2', initialValue: 0.01, units: 'm^3/s', min: 0, max: 10, interval: 0.1},        //Qd2
+    { name: 'Stężenie substancji', initialValue: 0.1, units: '%', min: 0.1, max: 1, interval: 0.01 },         //c
+    { name: 'Ciśnienie wpływu składnika 1', initialValue: 0.01, units: 'm^3/s', min: 0.01, max: 10, interval: 0.1 },                  //Q1 
+    { name: 'Ciśnienie wpływu składnika 2', initialValue: 0.01, units: 'm^3/s', min: 0.01, max: 10, interval: 0.1},        //Qd2
     { name: 'Cisnienie wypływu', initialValue: 0.01, units: 'm^3/s', min: 0.1, max: 20, interval: 0.1 },        //Qo
-    { name: 'Stężenie składnika 1', initialValue: 0.1, units: '%', min: 0, max: 1, interval: 0.01 },        //c1
-    { name: 'Stężenie składnika 2', initialValue: 0.1, units: '%', min: 0, max: 1, interval: 0.01 },    //c2
+    { name: 'Stężenie składnika 1', initialValue: 0.1, units: '%', min: 0.1, max: 1, interval: 0.01 },        //c1
+    { name: 'Stężenie składnika 2', initialValue: 0.1, units: '%', min: 0.1, max: 1, interval: 0.01 },    //c2
     { name: 'Zadane stężenie', initialValue: 0.1, units: '%', min: 0, max: 1, interval: 0.01 },    //target_c
     { name: 'Część proporcjonalna PID-1', initialValue: 0.1, units: 'none', min: 0.1, max: 10, interval: 0.1 },    //P1
     { name: 'Część całkująca PID-1', initialValue: 0.1, units: 'none', min: 0.1, max: 100, interval: 0.1 },    //I1
@@ -81,7 +81,7 @@ export const SETTINGS_FIELDS = {
     { name: 'Aktualny poziom cieczy', initialValue: 1, units: 'm', min: 0.1, max: 20, interval: 0.1 },        //h
     { name: 'Maksymalna wysokość zbiornika', initialValue: 5, units: 'm', min: 0.1, max: 20, interval: 0.1 },        //hMax
     { name: 'Zadany poziom cieczy', initialValue: 5, units: 'm', min: 0.1, max: 20, interval: 0.1 },        //hMax
-    { name: 'Próbkowanie', initialValue: 1, units: 'none', min: 0.11, max: 10, data: [0.01, 0.1, 1] },                  //Tp - próbkowanie
+    { name: 'Próbkowanie', initialValue: 1, units: 'none', data: [0.01, 0.1, 1] },                  //Tp - próbkowanie
     { name: 'Czas symulacji', initialValue: 1, units: 'h', min: 0.25, max: 24, interval: 0.5 },                 //SimulationLength - czas symulacji w godzinach
   ]
 

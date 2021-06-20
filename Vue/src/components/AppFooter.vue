@@ -1,11 +1,10 @@
 <template>
     <footer class="element">
-        <div id='footer-container'>
-            <b-tooltip v-if="!this.$parent.$children.find( child => { return child.$options.name == 'AppHeader'}).$data.user" target="xx" triggers="hover">
+        <!-- <div id='footer-container'> -->
+            <b-tooltip v-if="!this.$parent.$children.find( child => { return child.$options.name == 'AppHeader'}).$data.user" target="v-tabs" triggers="hover">
                 Zaloguj się aby odblokować pozostałe aplikacje
             </b-tooltip>
-            <v-tabs id='xx' v-model="active_tab" fixed-tabs dark background-color="#6e6658" color="#FFF">
-                <!-- <v-tabs-slider color="#a074c4"></v-tabs-slider> -->
+            <v-tabs id="v-tabs" v-model="active_tab" fixed-tabs dark background-color="#6e6658" color="#FFF">
                 <v-tab v-for="item in items"
                     :key="item.tab"
                     :disabled="item.disabled"
@@ -13,7 +12,7 @@
                     {{ item.tab }}
                 </v-tab> 
             </v-tabs> 
-        </div>
+        <!-- </div> -->
     </footer>
 </template>
 <script>
@@ -66,6 +65,7 @@ export default {
 footer {
     position: absolute;
     flex-shrink: 0;
+    
     margin: 0;
     bottom: 0;
     height: 50px;
@@ -76,7 +76,7 @@ footer {
 #footer-container {
     padding: 2px 0px 2px 0px;
     width: 100%;
-    height: 100%;
+    height: 54px !important;
     display: inline-block;
     flex-wrap: nowrap;
 
@@ -84,7 +84,6 @@ footer {
     //   width: 80%;
     // }
 }
-
 .v-slide-group__prev 
 .v-slide-group__prev--disabled {
     display: none !important;
