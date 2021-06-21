@@ -146,8 +146,11 @@ section {
   text-align: left;
 }
 .container{
-  width: 40%;
   justify-content: center;
+
+    @media (min-width: $break-desktop) {
+        width: 40%;
+    }
 }
 .widget {
     margin: 0;
