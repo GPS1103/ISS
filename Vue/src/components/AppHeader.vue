@@ -26,9 +26,8 @@ export default {
             user: null,
         }
     },
-    created(){
+    mounted(){
         this.checkUser();
-        //console.log(this.$route.name);
     },
     methods: {
         goBack(){
@@ -42,24 +41,14 @@ export default {
             this.$router.push({name: "Login"})
         },
         checkUser(){
-            // if(this.user){
-            //     this.user = res.user;
-            // }
-            
-            // it could be done better, but is what it is
-            
-            // axios.get('user')
-            //     .then( res =>{ 
-            //         console.log(res);
-            //         this.user = res.user;
-            //     })
-            //     .catch( err => {
-            //         console.log(err);
-            //     })
-
+            if(localStorage.getItem('tokenWaterControl')){
+                this.user = 'user';
+                const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})
+                appFooter.$data.items.forEach( (item, index) => { if(index != 0) item.disabled = false; });
+            }
         },
         logout(){
-            localStorage.removeItem('token');
+            localStorage.removeItem('tokenWaterControl');
             this.user = null; 
             this.$router.push("WaterContainer1");
             const appFooter = this.$parent.$children.find(child => { return child.$options.name === "AppFooter"})

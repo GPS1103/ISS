@@ -2,7 +2,7 @@
     <div class="container">
         <div class="title">Ustawienia czynników:</div>
         <div v-for="item in items" :key="item.name">
-            <Slider :name="item.name" :initialValue="item.initialValue" :min="item.min" :max="item.max" :data="item.data" :interval="item.interval"/>
+            <Slider :name="item.name" :initialValue="item.initialValue" :min="item.min" :max="item.max" :data="item.data" :interval="item.interval" :units="item.units"/>
         </div>
         <button class="button" @click="sendToSimulation">
             Symuluj
@@ -54,7 +54,7 @@ export default {
         padding-bottom: 70px;
 
         @media (min-width: $break-desktop) {
-            width: 40%;
+            width: 43%;
             margin: 3% 5%;
             position: absolute;
             overflow: auto;
@@ -63,7 +63,7 @@ export default {
         }
 
         @media (min-width: $break-big-desktop) {
-            width: 35%;
+            width: 38%;
             margin: 3% 10%;
         }
     }
