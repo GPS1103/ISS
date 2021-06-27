@@ -1,7 +1,13 @@
 <template>
   <div class='sliderContainer'>
-    <vue-slider v-bind="options" v-model="value" :min="min" :max="max" :data="data" :interval="interval"/>
+    <vue-slider v-bind="options" v-model="value" :min="min" :max="max" :data="data" :interval="interval" />
     <div class='sliderName'>{{ name }}</div>
+    <div class="sliderComponents" >
+      <div class='sliderValue'>{{ value }}</div>
+      <div class='sliderUnit'>
+        <p v-html="units"></p>
+      </div>
+    </div>
   </div>
 </template>
  
@@ -43,14 +49,11 @@ export default {
     },
     initialValue: {
       type: Number
+    },
+    units: {
+      type: String
     }  
   },
-  // watch: {
-  //   value(range) {
-  //     console.log(range, this.name);
-  //     console.log(this.initialValue);
-  //   }
-  // }
 }
 </script>
 
@@ -74,6 +77,28 @@ export default {
       margin-left: 5%;
       width: 50% !important;
       display: flex;
+    }
+    
+    .sliderComponents{
+      display: flex;
+      flex-wrap: nowrap;
+      min-width: 80px;
+      justify-content: center;
+      right: 0;
+      margin-left: 0px;
+    }
+
+    .sliderUnit {
+      margin-left: 4px;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .sliderValue {
+      font-weight: bold;
+      text-align: center;
+      min-width: 40px;
+      
     }
 
 </style>

@@ -11,6 +11,8 @@ import math
 import time
 import numpy as np
 import pandas as pd
+# import matplotlib.pyplot as plt
+
 
 def norm(x):
     # hardcoded values from data used to train currently used model
@@ -165,55 +167,81 @@ pid_val3 = prd.item(2) if prd.item(2) > 0 else 0
 """
 
 
-def runWaterContainer3(A, Beta, Qd, H, hMax, Tp, SimulationLength, target_level, maxInput, P1, I1, D1):
+def runWaterContainer3(A, Beta, qd, H, hMax, target_level, maxInput, P1, I1, D1, Tp, SimulationLength):
     # 1: calculate number of iterations
     tic = time.time()
     iterations = int((3600 * SimulationLength) / Tp)
     h = [H]
-    Qd = [Qd]
-    e = [0]
+    Qd = []
+    e = []
     PID_controller = PIDController(P1, I1, D1, Tp)
     for n in range(iterations + 1):
-        # skip step n = 0
-        if n == 0:
-            h.append(h[n])
-            continue
         # calculate errors for the controller
         e.append(target_level - h[n])
-        de = e[n] - e[n - 1]
-        if n < 2:
-            dde = de
+        if n == 0:
+            de = dde = 0
+        else:
+            de = e[n] - e[n - 1]
+        if n < 1:
+            dde = 0
         else:
             dde = e[n] - 2 * e[n - 1] + e[n - 2]
         # calculate the signal from PID, remember to sum it
-        inpt = PID_controller.calc_delta_u(de, e[n], dde) + Qd[n - 1]
+        inpt = PID_controller.calc_delta_u(de, e[n], dde)
+        if n != 0:
+            inpt += Qd[n - 1]
         if inpt <= 0:
             inpt = 0
         if inpt > maxInput:
             inpt = maxInput
         Qd.append(inpt)
         # calc next water lever
-        hNext = 1 / A * (-1 * Beta * math.sqrt(h[n - 1]) + Qd[n - 1]) * Tp + h[n - 1]
+        # it has to have Qd[n] so we can keep calculating with a softer start
+        hNext = 1 / A * (-1 * Beta * math.sqrt(h[n]) + Qd[n]) * Tp + h[n]
         if hNext > hMax:
             print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            """
+            plt.plot(Qd)
+            plt.plot(h)
+            plt.ylabel('Qd[m^3/s] and h[m]')
+            plt.axis([0, iterations, 0, max(h)])
+            plt.show()
+            """
             return h
         if hNext < 0:
             print('Container empty! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            """
+            plt.plot(Qd)
+            plt.plot(h)
+            plt.ylabel('Qd[m^3/s] and h[m]')
+            plt.axis([0, iterations, 0, max(h)])
+            plt.show()
+            """
             return h
         h.append(hNext)
         if n == iterations:
             toc = time.time()
             print("Run script: ", toc - tic)
             print('finisz')
+            """
+            plt.plot(Qd)
+            plt.plot(h)
+            plt.ylabel('Qd[m^3/s] and h[m]')
+            plt.axis([0, iterations, 0, max(h)])
+            plt.show()
+            """
             return h
 
 
-def runWaterContainer3_1(A, Beta, Qd, H, hMax, Tp, SimulationLength, target_level, maxInput, version):
+# runWaterContainer3(1, 0.5, 2.9, 5, 25, 0.25, 0.05, 12, 5, 2, 20, 0.25)
+
+
+def runWaterContainer3_1(A, Beta, Qd, H, hMax, target_level, maxInput, version, Tp, SimulationLength):
     tic = time.time()
     iterations = int((3600 * SimulationLength) / Tp)
     h = [H]
-    Qd = [Qd]
-    e = [0]
+    Qd = []
+    e = []
     inpar = norm([A, Beta, Tp]).to_numpy()
     # ewentualnie mozna na sztywno zdefiniowac
     if version == 0:
@@ -224,43 +252,68 @@ def runWaterContainer3_1(A, Beta, Qd, H, hMax, Tp, SimulationLength, target_leve
     pid_val1 = prd[0] if prd[0] > 0 else 0
     pid_val2 = prd[1] if prd[1] > 0 else 0
     pid_val3 = prd[2] if prd[2] > 0 else 0
+    #temporary measure
+    pid_val1 = pid_val1/3
 
     PID_controller = PIDController(pid_val1, pid_val2, pid_val3, Tp)
 
     for n in range(iterations + 1):
-        # skip step n = 0
-        if n == 0:
-            h.append(h[n])
-            continue
         # calculate errors for the controller
         e.append(target_level - h[n])
-        de = e[n] - e[n - 1]
-        if n < 2:
-            dde = de
+        if n == 0:
+            de = dde = 0
+        else:
+            de = e[n] - e[n - 1]
+        if n < 1:
+            dde = 0
         else:
             dde = e[n] - 2 * e[n - 1] + e[n - 2]
         # calculate the signal from PID, remember to sum it
-        inpt = PID_controller.calc_delta_u(de, e[n], dde) + Qd[n - 1]
+        inpt = PID_controller.calc_delta_u(de, e[n], dde)
+        if n != 0:
+            inpt += Qd[n - 1]
         if inpt <= 0:
             inpt = 0
         if inpt > maxInput:
             inpt = maxInput
         Qd.append(inpt)
         # calc next water lever
-        hNext = 1 / A * (-1 * Beta * math.sqrt(h[n - 1]) + Qd[n - 1]) * Tp + h[n - 1]
+        # it has to have Qd[n] so we can keep calculating with a softer start
+        hNext = 1 / A * (-1 * Beta * math.sqrt(h[n]) + Qd[n]) * Tp + h[n]
         if hNext > hMax:
             print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            """
+            plt.plot(Qd)
+            plt.plot(h)
+            plt.ylabel('Qd[m^3/s] and h[m]')
+            plt.axis([0, iterations, 0, max(h)])
+            plt.show()
+            """
             return h
         if hNext < 0:
             print('Container empty! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            """
+            plt.plot(Qd)
+            plt.plot(h)
+            plt.ylabel('Qd[m^3/s] and h[m]')
+            plt.axis([0, iterations, 0, max(h)])
+            plt.show()
+            """
             return h
         h.append(hNext)
         if n == iterations:
             toc = time.time()
             print("Run script: ", toc - tic)
             print('finisz')
+            """
+            plt.plot(Qd)
+            plt.plot(h)
+            plt.ylabel('Qd[m^3/s] and h[m]')
+            plt.axis([0, iterations, 0, max(h)])
+            plt.show()
+            """
             return h
 
 
 print('WaterContainer3.py loaded!')
-# runWaterContainer3(10, 0.5, 0.5, 1, 20, 1, 0.5, 12, 5, 0)
+#runWaterContainer3(10, 0.5, 2.9, 5, 25, 0.25, 0.05, 12, 5, 0)

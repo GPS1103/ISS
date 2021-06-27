@@ -84,7 +84,7 @@ export default {
                         this.isSuccessAlertShow = true;
                         //console.log(res.data.token);
                         document.getElementsByClassName('alert-primary')[1].style.opacity="1"
-                        //localStorage.setItem('token', res.data.token);
+                        localStorage.setItem('tokenWaterControl', res.data.token);
                         const appHeader = this.$parent.$children.find( child => { return child.$options.name == "AppHeader"});
                         appHeader.$data.user = res.data.data.name;
                         console.log(appHeader.$data, appHeader.$data.user );

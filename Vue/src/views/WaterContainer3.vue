@@ -34,9 +34,14 @@ export default {
   },  
   methods: {
     simulate(parametersArray){
-      console.log(this.$options.name);
-      console.log(parametersArray);
-      this.$emit("simulateApp", this.$options.name, parametersArray);
+      if(parametersArray[3] <= parametersArray[4] && parametersArray[5] <= parametersArray[4]){
+          console.log(this.$options.name);
+          console.log(parametersArray);
+          this.$emit("simulateApp", this.$options.name, parametersArray);
+      }
+      else {
+          alert("Aktualna lub zadana wysokość zbiornika nie może być większa od maksymalnej wysokości zbiornika");
+      }
     }
   }
 
