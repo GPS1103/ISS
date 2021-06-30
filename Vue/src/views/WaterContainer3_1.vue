@@ -4,7 +4,7 @@
       <section>
         <VariablesSettingBox @simulate="simulate"/>
         <div class='singleChart'>
-        <CustomeChart title="Wykres poziomu cieczy od czasu" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
+        <CustomeChart title="" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
         </div>
       </section>
     </div>
@@ -34,9 +34,7 @@ export default {
   },  
   methods: {
     simulate(parametersArray){
-      if(parametersArray[3] <= parametersArray[4] && parametersArray[5] <= parametersArray[4]){
-        console.log(this.$options.name);
-        console.log(parametersArray);
+      if(parametersArray[2] <= parametersArray[3] && parametersArray[4] <= parametersArray[3]){
         this.$emit("simulateApp", this.$options.name, parametersArray);
       }
       else {

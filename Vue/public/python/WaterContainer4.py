@@ -15,181 +15,197 @@ Qo  = outflow of solution
 V   = volume of solution
 """
 
+#import PIDController as PID_Controller
 import time
+#import matplotlib.pyplot as plt
 
-def runWaterContainer4_1(v, C, QD1, QD2, QO, cd1, cd2, Tp, SimulationLength, target_c, P1, I1, D1, maxInput, vMax):
+
+# def runWaterContainer4(v, C, QD1, QD2, QO, cd1, cd2, Tp, SimulationLength, target_c, P1, I1, D1, maxInput, vMax):
+#     tic = time.time()
+#     iterations = int(3600 * SimulationLength / Tp)
+#     V = [v]
+#     c = [C]
+#     Qd1 = []
+#     e1 = []
+#     u1 = []
+#     PID_conc = PID_Controller.PIDController(P1, I1, D1, Tp)
+#     for n in range(iterations + 1):
+#         e1.append(target_c - c[n])
+#         if n == 0:
+#             de1 = 0
+#         else:
+#             de1 = e1[n] - e1[n - 1]
+#         if n < 1:
+#             dde1 = 0
+#         else:
+#             dde1 = e1[n] - 2 * e1[n - 1] + e1[n - 2]
+
+#         tmp_u1 = PID_conc.calc_delta_u(de1, e1[n], dde1)
+#         if n != 0:
+#             tmp_u1 += u1[n - 1]
+
+#         if tmp_u1 > maxInput:
+#             u1.append(maxInput)
+
+#         if tmp_u1 < 0:
+#             u1.append(0)
+#         else:
+#             u1.append(tmp_u1)
+
+#         Qd1.append(u1[n])
+#         # all of unchanging constants have been swapped for direct indexes
+#         VNext = (Qd1[n] + QD2 - QO) * Tp + V[n]
+#         if VNext < 0:
+#             print('Container empty! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+#             return [V, c]
+#         if VNext > vMax:
+#             print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+#             return [V, c]
+#         cNext = (Qd1[n] * (cd1 - c[n]) + QD2 * (cd2 - c[n])) * Tp / V[n] + c[n]
+#         if cNext > 1:
+#             print('Container too concentrated! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+#             return [V, c]
+#         if cNext < 0:
+#             print('Container at negative concentration! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+#             return [V, c]
+#         V.append(VNext)
+#         c.append(cNext)
+#         if n == iterations - 1:
+#             toc = time.time()
+#             print("Run script: ", toc - tic)
+#             print('finisz')
+#             return [V, c]
+
+
+# runWaterContainer4(10, 0.1, 1, 1, 1.001, 0.5, 0.1, 1, 0.5, 0.25, 3, 30, 0.1, 5, 100000)
+
+
+def runWaterContainer4(v, C, QD2, cd1, cd2, target_c, P1, I1, D1, maxInput, vMax, P2, I2, D2, Tp, SimulationLength):
+    C=C/100
+    cd1=cd1/100
+    cd2=cd2/100
+    target_c=target_c/100
     tic = time.time()
     iterations = int(3600 * SimulationLength / Tp)
     V = [v]
     c = [C]
-    Qd1 = [QD1]
-    Qd2 = [QD2]
-    Qo = [QO]
+    Qd1 = []
+    Qo = []
     e1 = [target_c - c[0]]
-    de1 = [0]
-    dde1 = [0]
-    u1 = [0]
-    e2 = [0]
-    de2 = [0]
-    dde2 = [0]
-    u2 = [0]
-    u2_unconstrained = [0]
+    u1 = []
+    e2 = []
     PID_conc = PIDController(P1, I1, D1, Tp)
-    PID_flow = PIDController(P1, I1, D1, Tp)
-    for n in range(iterations + 1):
-        # skip step n = 0
-        if n == 0:
-            continue
-        e1.append(target_c - c[n - 1])
-        de1.append(e1[n - 1] - e1[n - 2])
-
-        if n < 2:
-            dde1.append(de1[n])
-        else:
-            dde1.append(e1[n - 1] - 2 * e1[n - 2] + e1[n - 3])
-
-        tmp_u1 = PID_conc.calc_delta_u(de1[n], e1[n], dde1[n]) + u1[n - 1]
-        u1.append(tmp_u1)
-
-        # u1 is x2, x2 - y2 = e2, y2 is V[0]
-        e2.append(u1[n] - u1[n - 1])
-        de2.append(e2[n] - e2[n - 1])
-
-        if n < 2:
-            dde2.append(de2[n])
-        else:
-            dde2.append(e2[n] - 2 * e2[n - 1] + e2[n - 2])
-
-        tmp_u2 = PID_flow.calc_delta_u(de2[n], e2[n], dde2[n]) + u2[n - 1]
-        if tmp_u2 < 0:
-            tmp_u2 = 0
-        u2.append(tmp_u2)
-
-        u2_unconstrained.append(u2[n])
-        if u2[n] > maxInput:
-            u2[n] = maxInput
-        if u2[n] <= 0:
-            u2[n] = 0
-        Qd1.append(u2[n])
-        Qo.append(Qo[0])
-
-        VNext = (Qd1[n] + Qd2[0] - Qo[n]) * Tp + V[n - 1]
-        if VNext > vMax:
-            print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
-            return [V, c]
-        if VNext < 0:
-            print('Container empty! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
-            return [V, c]
-
-        cNext = (Qd1[n - 1] * (cd1 - c[n - 1]) + Qd2[0] * (cd2 - c[n - 1])) * Tp / V[n - 1] + c[n - 1]
-        if cNext > 1:
-            print('Container too concentrated! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
-            return [V, c]
-        if cNext < 0:
-            print('Container has negative concentration! Happened at iteration = ', n, ' equal to time =', n * Tp,
-                  ' s.')
-            return [V, c]
-
-        V.append(VNext)
-        c.append(cNext)
-
-        if n == iterations:
-            toc = time.time()
-            print("Run script: ", toc - tic)
-            print('finisz')
-            return [V, c]
-
-
-def runWaterContainer4(v, C, QD1, QD2, QO, cd1, cd2, target_c, P1, I1, D1, maxInput, vMax, P2, I2, D2, Tp, SimulationLength):
-    tic = time.time()
-    iterations = int(3600 * SimulationLength / Tp)
-    C = C/100
-    V = [v]
-    c = [C]
-    Qd1 = [QD1]
-    Qd2 = [QD2]
-    Qo = [QO]
-    e1 = [target_c - c[0]]
-    de1 = [0]
-    dde1 = [0]
-    u1 = [0]
-    e2 = [0]
-    de2 = [0]
-    dde2 = [0]
-    u2 = [0]
-    e3 = [0]
-    de3 = [0]
-    dde3 = [0]
-    u3 = [0]
-    PID_conc = PIDController(P1, I1, D1, Tp)
-    PID_flow = PIDController(P1, I1, D1, Tp)
     PID_out = PIDController(P2, I2, D2, Tp)
     for n in range(iterations + 1):
-        # skip step n = 0
+        e1.append(target_c - c[n])
         if n == 0:
-            continue
-        e1.append(target_c - c[n - 1])
-        de1.append(e1[n - 1] - e1[n - 2])
-
-        if n < 2:
-            dde1.append(de1[n])
+            de1 = 0
         else:
-            dde1.append(e1[n - 1] - 2 * e1[n - 2] + e1[n - 3])
-
-        tmp_u1 = PID_conc.calc_delta_u(de1[n], e1[n], dde1[n]) + u1[n - 1]
-        u1.append(tmp_u1)
-
-        # u1 is x2, x2 - y2 = e2, y2 is V[0]
-        e2.append(u1[n] - u1[n - 1])
-        de2.append(e2[n] - e2[n - 1])
-
-        if n < 2:
-            dde2.append(de2[n])
+            de1 = e1[n] - e1[n - 1]
+        if n < 1:
+            dde1 = 0
         else:
-            dde2.append(e2[n] - 2 * e2[n - 1] + e2[n - 2])
+            dde1 = e1[n] - 2 * e1[n - 1] + e1[n - 2]
 
-        tmp_u2 = PID_flow.calc_delta_u(de2[n], e2[n], dde2[n]) + u2[n - 1]
-        if tmp_u2 < 0:
-            tmp_u2 = 0
-        u2.append(tmp_u2)
-        if u2[n] > maxInput:
-            u2[n] = maxInput
-        if u2[n] <= 0:
-            u2[n] = 0
-        Qd1.append(u2[n])
+        tmp_u1 = PID_conc.calc_delta_u(de1, e1[n], dde1)
+        if n != 0:
+            tmp_u1 += u1[n - 1]
 
-        e3.append(V[n - 1] - V[0])
-        de3.append(e3[n] - e3[n - 1])
-        if n < 2:
-            dde3.append(de3[n])
+        if tmp_u1 > maxInput:
+            u1.append(maxInput)
+
+        if tmp_u1 < 0:
+            u1.append(0)
         else:
-            dde3.append(e3[n] - 2 * e3[n - 1] + e3[n - 2])
+            u1.append(tmp_u1)
 
-        u3_tmp = PID_out.calc_delta_u(de3[n], e3[n], dde3[n]) + Qo[n - 1]
-        if u3_tmp < 0:
-            u3_tmp = 0
-        u3.append(u3_tmp)
-        Qo.append(u3_tmp)
+        Qd1.append(u1[n])
 
-        VNext = (Qd1[n] + Qd2[0] - Qo[n]) * Tp + V[n - 1]
+        e2.append(V[n] - V[0])
+        de2 = e2[n] - e2[n - 1]
+        if n < 1:
+            dde2 = 0
+        else:
+            dde2 = e2[n] - 2 * e2[n - 1] + e2[n - 2]
+
+        u2_tmp = PID_out.calc_delta_u(de2, e2[n], dde2)
+        if n != 0:
+            u2_tmp += Qo[n - 1]
+
+        if u2_tmp < 0:
+            u2_tmp = 0
+        if u2_tmp > 2*maxInput:
+            u2_tmp = 2*maxInput
+        Qo.append(u2_tmp)
+
+        VNext = (Qd1[n] + QD2 - Qo[n]) * Tp + V[n]
+        if VNext < 0:
+            print('Container empty! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            # plt.plot(V)
+            # plt.plot(c)
+            # plt.ylabel('V[m^3] and c[1]')
+            # plt.axis([0, n, 0, max(V)])
+            # plt.show()
+            for i in range(len(c)):
+                c[i] = c[i]*100
+            return [V, c]
         if VNext > vMax:
             print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            # plt.plot(V)
+            # plt.plot(c)
+            # plt.ylabel('V[m^3] and c[1]')
+            # plt.axis([0, n, 0, max(V)])
+            # plt.show()
+            for i in range(len(c)):
+                c[i] = c[i]*100
             return [V, c]
         if VNext < 0:
             print('Container empty! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
-            return [V, c]
-        cNext = (Qd1[n - 1] * (cd1 - c[n - 1]) + Qd2[0] * (cd2 - c[n - 1])) * Tp / V[n - 1] + c[n - 1]
-        if cNext > 1:
-            print('Container too concentrated! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            # plt.plot(V)
+            # plt.plot(c)
+            # plt.ylabel('V[m^3] and c[1]')
+            # plt.axis([0, n, 0, max(V)])
+            # plt.show()
+            for i in range(len(c)):
+                c[i] = c[i]*100
             return [V, c]
         V.append(VNext)
+        cNext = (Qd1[n] * (cd1 - c[n]) + QD2 * (cd2 - c[n])) * Tp / V[n + 1]
+        if n != 0:
+            cNext += c[n]
+        if cNext > 1:
+            print('Container too concentrated! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            # plt.plot(V)
+            # plt.plot(c)
+            # plt.ylabel('V[m^3] and c[1]')
+            # plt.axis([0, n, 0, max(V)])
+            # plt.show()
+            for i in range(len(c)):
+                c[i] = c[i]*100
+            return [V, c]
+        if cNext < 0:
+            print('Container at negative concentration! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            # plt.plot(V)
+            # plt.plot(c)
+            # plt.ylabel('V[m^3] and c[1]')
+            # plt.axis([0, n, 0, max(V)])
+            # plt.show()
+            for i in range(len(c)):
+                c[i] = c[i]*100
+            return [V, c]
         c.append(cNext)
-        if n == iterations:
+        if n == iterations - 1:
             toc = time.time()
             print("Run script: ", toc - tic)
             print('finisz')
+            # plt.plot(V)
+            # plt.plot(c)
+            # plt.ylabel('V[m^3] and c[1]')
+            # plt.axis([0, n, 0, max(V)])
+            # plt.show()
+            for i in range(len(c)):
+                c[i] = c[i]*100
             return [V, c]
 
-# runWaterContainer4(10, 0.1, 1, 1, 1.001, 0.5, 0.1, 1, 0.5, 0.25, 3, 30, 0.1, 5, 1000)
-# runWaterContainer4(10, 0.1, 1, 1, 1.001, 0.5, 0.1, 1, 0.5, 0.25, 3, 30, 0.1, 5, 1000, 1, 10, 0.1)
 print('WaterContainer4.py loaded!')
+# runWaterContainer4(10, 0, 0, 5, 5, 1, 0, 1, 0.1, 0.25, 3, 10, 0.2, 7, 1000000, 0.9, 10, 0)

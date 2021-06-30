@@ -4,8 +4,8 @@
       <section>
         <VariablesSettingBox @simulate="simulate"/>
         <div class='doubleCharts'>
-        <CustomeChart title="Wykres objętości od czasu" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
-        <CustomeChart title="Wykres stężenia od czasu" type="spline" id="container-concentration" :data="concentration" axisX="Czas symulacji [h]" axisY="Stężenie substancji [%]"/>
+        <CustomeChart title="" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
+        <CustomeChart title="" type="spline" id="container-concentration" :data="concentration" axisX="Czas symulacji [h]" axisY="Stężenie substancji [%]"/>
         </div>
       </section>
     </div>
@@ -35,13 +35,16 @@ export default {
   },  
   methods: {
     simulate(parametersArray){
-      if(parseFloat(parametersArray[2]) + parseFloat(parametersArray[3]) >= parametersArray[4]){
+      if(parametersArray[9] >= parametersArray[2] && parametersArray[10] >= parametersArray[0]){
         console.log(this.$options.name);
         console.log(parametersArray);
         this.$emit("simulateApp", this.$options.name, parametersArray);
       }
+      else if(parametersArray[10] >= parametersArray[0]){
+        alert("Maksymalna objętość cieczy nie może być mniejsza od aktualnej");
+      }
       else {
-        alert("Ciśnienie wypływu nie może być większe niż suma wypływu poszczególnych substancji");
+        alert("Natężenie odpływu nie może być większe niż natężenie dopływu substancji");
       }
     }
   }

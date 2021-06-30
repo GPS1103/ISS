@@ -26,10 +26,6 @@ export default {
             default: function() { return SETTINGS_FIELDS[this.$parent.$options.name] }
         }
     },
-    // data(){
-    //     return {
-    //     }
-    // },
     methods: {
         sendToSimulation(){
             this.$parent.Tp = this.$children[this.$children.length -2].$data.value;

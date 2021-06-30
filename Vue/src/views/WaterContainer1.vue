@@ -4,7 +4,7 @@
       <section>
         <VariablesSettingBox @simulate="simulate"/>
         <div class='singleChart'>
-        <CustomeChart title="Wykres poziomu cieczy od czasu" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
+        <CustomeChart title="" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
         </div>
       </section>
     </div>
@@ -28,9 +28,12 @@ export default {
   },
   methods: {
     simulate(parametersArray){
-      console.log(this.$options.name);
-      console.log(parametersArray);
-      this.$emit("simulateApp", this.$options.name, parametersArray);
+      if(parametersArray[3] <= parametersArray[4]){
+        this.$emit("simulateApp", this.$options.name, parametersArray);
+      }
+      else {
+        alert("Aktualna lub zadana wysokość zbiornika nie może być większa od maksymalnej wysokości zbiornika");
+      }
     }
   }
 };

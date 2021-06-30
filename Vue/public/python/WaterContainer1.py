@@ -16,7 +16,6 @@ h = liquid level inside of container
 """
 
 
-
 #main
 
 #parameters
@@ -44,6 +43,7 @@ h = liquid level inside of container
 #2:loop
 import math
 import time
+# import matplotlib.pyplot as plt
 
 def runWaterContainer1(A, Beta, Qd, H, hMax, Tp, SimulationLength):
     print(A, Beta, Qd, H, Tp, SimulationLength, hMax)
@@ -52,21 +52,20 @@ def runWaterContainer1(A, Beta, Qd, H, hMax, Tp, SimulationLength):
     print(iterations)
     tic = time.time()
     for n in range(iterations + 1):
-        #skip step n = 0
-        if (n == 0):
-            continue
-        hNext = 1/A*(-1*Beta*math.sqrt(h[n-1])+Qd)*Tp+h[n-1]
+        # calc next water lever
+        hNext = 1 / A * (-1 * Beta * math.sqrt(h[n]) + Qd) * Tp + h[n]
         if hNext > hMax:
-            print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n*Tp, ' s.')
+            print('Container overflowed! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
             return h
-            #raise ValueError('Try setting different parameters')
+        if hNext < 0:
+            print('Container empty! Happened at iteration = ', n, ' equal to time =', n * Tp, ' s.')
+            return h
         h.append(hNext)
-        # if(round(hNext,2) > round(h[n-1],2)):
-        #     print(round(hNext,2))
-        if n == iterations:
+        if n == (iterations - 1):
             toc = time.time()
             print("Run script: ", toc - tic)
-            print('finisz')    
+            print('finisz')
             return h
 
 print('WaterContainer1.py loaded!')
+# runWaterContainer1(10, 0.5, 2, 5, 25, 5, 0.01)

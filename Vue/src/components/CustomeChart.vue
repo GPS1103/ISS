@@ -1,8 +1,6 @@
 <template>
   <div class="small">
     <div>
-      <!-- <button class="button" @click="changeUi()">Wysokość</button>
-      <button class="button" @click="fillData(2)">Objętość</button> -->
     </div>
     <div class="chart-container" :id="this.id"></div>
   </div>
@@ -41,6 +39,11 @@ export default {
         },
         axisY: {
           title: this.axisY
+        },
+        toolTip:{
+          contentFormatter: function(e){
+            return "<b style='color: blue'>"+parseFloat(e.entries[0].dataPoint.x).toFixed(3)+"</b>"+": "+parseFloat(e.entries[0].dataPoint.y).toFixed(3);
+          }
         },
         animationEnabled: true,
         data: [

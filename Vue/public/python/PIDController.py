@@ -16,5 +16,3 @@ class PIDController:
 
     def calc_delta_u(self, de, e, dde):
         return self.Kp * (de + (self.Tp / self.Ti * e) + (self.Td / self.Tp * dde))
-
-print('PIDController.py loaded!')

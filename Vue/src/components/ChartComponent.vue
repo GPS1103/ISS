@@ -18,7 +18,13 @@ export default {
         title: {
           text: 'CanvasJS Chart in Vue.js'
         },
-        animationEnabled: true,
+        animationEnabled: false,
+       toolTipContent:"<a href = {name}> {label}</a><hr/>Views: {y}",
+       toolTip:{
+          contentFormatter: function(e){
+            return "<b>"+parseFloat(e.entries[0].dataPoint.x).toFixed(2)+"</b>";
+          }
+        },
         data: [
           {
             type: 'line',

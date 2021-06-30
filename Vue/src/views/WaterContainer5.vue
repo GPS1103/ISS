@@ -4,7 +4,7 @@
       <section>
         <VariablesSettingBox @simulate="simulate"/>
         <div class='singleChart'>
-        <CustomeChart title="Wykres poziomu cieczy od czasu" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
+        <CustomeChart title="" type="spline" id="container-volume" :data="volume" axisX="Czas symulacji [h]" axisY="Wysokość poziomu cieczy [m]"/>
         </div>
       </section>
     </div>

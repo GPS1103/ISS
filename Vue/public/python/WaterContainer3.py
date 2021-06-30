@@ -18,8 +18,6 @@ def norm(x):
     # hardcoded values from data used to train currently used model
     stat = {'mean': [15.926381, 6.080413, 0.549178],
             'std': [3.693254, 2.660454, 0.274814]}
-    # I don't get why I need to do it this way (dict -> dataframe -> func)
-    # but it wouldn't work with (dataframe -> func) and I don't have time to fuck around
     stats = pd.DataFrame(stat)
     return (x - stats['mean']) / stats['std']
 
@@ -167,7 +165,7 @@ pid_val3 = prd.item(2) if prd.item(2) > 0 else 0
 """
 
 
-def runWaterContainer3(A, Beta, qd, H, hMax, target_level, maxInput, P1, I1, D1, Tp, SimulationLength):
+def runWaterContainer3(A, Beta, H, hMax, target_level, maxInput, P1, I1, D1, Tp, SimulationLength):
     # 1: calculate number of iterations
     tic = time.time()
     iterations = int((3600 * SimulationLength) / Tp)
@@ -236,7 +234,7 @@ def runWaterContainer3(A, Beta, qd, H, hMax, target_level, maxInput, P1, I1, D1,
 # runWaterContainer3(1, 0.5, 2.9, 5, 25, 0.25, 0.05, 12, 5, 2, 20, 0.25)
 
 
-def runWaterContainer3_1(A, Beta, Qd, H, hMax, target_level, maxInput, version, Tp, SimulationLength):
+def runWaterContainer3_1(A, Beta, H, hMax, target_level, maxInput, version, Tp, SimulationLength):
     tic = time.time()
     iterations = int((3600 * SimulationLength) / Tp)
     h = [H]
@@ -250,10 +248,12 @@ def runWaterContainer3_1(A, Beta, Qd, H, hMax, target_level, maxInput, version, 
         prd = ejaj_genetic(inpar)
 
     pid_val1 = prd[0] if prd[0] > 0 else 0
-    pid_val2 = prd[1] if prd[1] > 0 else 0
+    pid_val2 = prd[1] if prd[1] > 1 else 1
     pid_val3 = prd[2] if prd[2] > 0 else 0
     #temporary measure
-    pid_val1 = pid_val1/3
+    pid_val1 = pid_val1/(Beta*(Beta*-290+153))
+    pid_val2 = pid_val2*10
+    pid_val3 = pid_val3/(Beta*500)
 
     PID_controller = PIDController(pid_val1, pid_val2, pid_val3, Tp)
 
@@ -261,7 +261,7 @@ def runWaterContainer3_1(A, Beta, Qd, H, hMax, target_level, maxInput, version, 
         # calculate errors for the controller
         e.append(target_level - h[n])
         if n == 0:
-            de = dde = 0
+            de = 0
         else:
             de = e[n] - e[n - 1]
         if n < 1:
@@ -301,7 +301,7 @@ def runWaterContainer3_1(A, Beta, Qd, H, hMax, target_level, maxInput, version, 
             """
             return h
         h.append(hNext)
-        if n == iterations:
+        if n == (iterations - 1):
             toc = time.time()
             print("Run script: ", toc - tic)
             print('finisz')
@@ -316,4 +316,4 @@ def runWaterContainer3_1(A, Beta, Qd, H, hMax, target_level, maxInput, version, 
 
 
 print('WaterContainer3.py loaded!')
-#runWaterContainer3(10, 0.5, 2.9, 5, 25, 0.25, 0.05, 12, 5, 0)
+# runWaterContainer3(10, 0.5, 2.9, 5, 25, 0.25, 0.05, 12, 5, 0)
